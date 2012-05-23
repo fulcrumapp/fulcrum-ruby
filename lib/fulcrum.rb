@@ -1,3 +1,5 @@
 require "fulcrum/version"
 require "fulcrum/api"
+require "fulcrum/validators/form_validator"
 require "fulcrum/form"
+require "fulcrum/records"
