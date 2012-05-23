@@ -1,5 +1,2 @@
 require "fulcrum/version"
-
-module Fulcrum
-  # Your code goes here...
-end
+require "fulcrum/api"

@@ -1,6 +1,6 @@
 # Fulcrum
 
-TODO: Write a gem description
+Fulcrum API Gem
 
 ## Installation
 
