@@ -19,6 +19,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'rspec'
   gem.add_development_dependency 'debugger'
   
+  gem.add_dependency 'activesupport'
   gem.add_dependency 'faraday'
   gem.add_dependency 'hashie'
   gem.add_dependency 'faraday_middleware'

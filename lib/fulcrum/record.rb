@@ -12,15 +12,17 @@ module Fulcrum
     end
     
     def retrieve(id)
-      resp = @connection.get("records/#{id}")
+      resp = @connection.get("records/#{id}.json")
       raise ApiError.new(resp.body, resp.status) if !resp.success?
       resp.body
     end
     
     def create(attributes = {})
+      resp = @connection.post("records.json")
     end
     
-    def update(attributes = {})
+    def update(id, attributes = {})
+      resp = @connection.put("records/#{id}.json")
     end
     
     def delete(id)
