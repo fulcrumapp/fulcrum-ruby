@@ -5,51 +5,44 @@ require 'faraday_middleware'
 
 module Fulcrum
   
+  class ApiError < Faraday::Error::ClientError; end
   class ConnectionError < StandardError; end
-  class ApiError < StandardError
-    def initialize(message, status)
-      super(message)
-      @status = status
-    end
-    
-    alias :orig_to_s :to_s
-    def to_s
-      "#{orig_to_s}, status: #{@status}"
-    end
-  end
   
   class Api
     
-    @@uri = 'http://localhost:3000/api/v2'
+    URI = 'http://app.fulcrumapp.com/api/v2'
     
     attr :connection
     
     def initialize(opts = {})
+      @uri = opts[:uri] || URI
       @key = opts[:key] || get_key(opts[:username], opts[:password])
       raise ConnectionError, 'no api key' unless @key
       
-      @connection = Faraday.new('http://localhost:3000/api/v2', headers: { 'X-ApiToken' => @key,
-                                                  user_agent: "Ruby Fulcrum API Client version #{Fulcrum::VERSION}",
-                                                  accept: 'application/json' }) do |f|
-        f.adapter :net_http
-        f.request :multipart
-        f.request :url_encoded
-        f.response :logger
-        f.response :json, :content_type => /\bjson$/
+      @connection = Faraday.new(@uri) do |b|
+        b.request :json
+        b.response :logger
+        b.response :raise_error
+        b.response :json, :content_type => "application/json"
+        b.adapter Faraday.default_adapter
       end
+      
+      @connection.headers['X-ApiToken'] = @key
+      @connection.headers['User-Agent'] = "Ruby Fulcrum API Client version #{Fulcrum::VERSION}"
     end
     
     private
     def get_key(username, password)
-      conn = Faraday.new(@@uri, headers: {  user_agent: "Ruby Fulcrum API Client version #{Fulcrum::VERSION}",
-                                            accept: 'application/json' }) do |f|
-        f.adapter :net_http
-        f.response :mashify
-        f.response :json, :content_type => /\bjson$/
+      conn = Faraday.new(@uri) do |b|
+        b.response :raise_error
+        b.response :mashify
+        b.response :json, :content_type => "application/json"
+        b.adapter Faraday.default_adapter
       end
+      
+      conn.headers['User-Agent'] = "Ruby Fulcrum API Client version #{Fulcrum::VERSION}"
       conn.basic_auth(username, password)
       resp = conn.get('users.json')
-      raise ApiError.new('unknown user', resp.status) if !resp.success?
       resp.body.user.api_token
     end
   end

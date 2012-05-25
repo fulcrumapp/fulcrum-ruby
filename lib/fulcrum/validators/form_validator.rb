@@ -61,9 +61,9 @@ module Fulcrum
         case element[:type]
 
         when 'ClassificationField'
-          add_error(key, :classification_set_id, 'is required') if element[:classification_set_id].blank?
-
-          add_error(key, :classification_set_id, 'does not exist') unless ::ClassificationSet.where(_id: element[:classification_set_id]).first
+          if element[:classification_set_id]
+            add_error(key, :classification_set_id, 'is required') if element[:classification_set_id].blank?
+          end
 
         when 'Section'
           if element[:elements].is_a?(Array)
@@ -78,7 +78,7 @@ module Fulcrum
 
         when 'ChoiceField'
           if element[:choice_list_id]
-            add_error(key, :choice_list_id, 'does not exist') unless ::ChoiceList.find(element[:choice_list_id])
+            add_error(key, :choice_list_id, 'is required') if element[:choice_list_id].blank?
           else
             if element[:choices].is_a?(Array)
               add_error(key, :choices, 'must not be empty') if element[:choices].blank?
