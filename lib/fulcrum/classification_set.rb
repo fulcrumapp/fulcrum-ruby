@@ -3,7 +3,6 @@ module Fulcrum
     def all(opts = {})
       params = {}.tap do |p|
         p[:page] = opts.delete(:page) if opts[:page]
-        p[:schema] = opts.delete(:schema) if opts[:schema]
         p[:per_page] = opts.delete(:per_page) if opts[:per_page]
       end
       resp = @connection.get('classification_sets.json')

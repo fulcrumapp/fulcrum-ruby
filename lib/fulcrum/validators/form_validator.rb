@@ -22,37 +22,40 @@ module Fulcrum
       @items  = {}
       if data[:form]
         if form_elements && !form_elements.empty?
-          @errors['form'] = { name: 'cannot be blank' } if form_name.blank?
+          add_error('form', 'name', 'cannot be blank') if data[:form][:name].blank?
           fields(form_elements)
           conditionals(form_elements)
         else
-          @errors['form'] = ['must have an elements array and not be empty']
+          add_error('form', 'elements', 'must be a non-empty array')
         end
       else
-        @errors['form'] = ['form cannot be blank']
+        @errors['form'] = ['must exist and not be empty']
       end
+      return valid?
     end
 
     def fields(elements)
-      elements.each { |element| field(element) }
+      if elements.kind_of?(Array) && !elements.empty?
+        elements.each { |element| field(element) }
+      else
+        add_error('form', 'elements', 'must be a non-empty array')
+      end
     end
 
     def field(element)
       if element.blank?
-        @errors['elements'] = 'elements cannot contain an empty element'
+        add_error('elements', 'element', 'must not be empty')
       else
         if @items.include?(element[:key])
-          add_error(element[:key], :key, 'key must be unique')
-          return false
+          add_error(element[:key], :key, 'must be unique')
         end
 
         key = element[:key]
-
         @items[key] = element[:type]
 
-        add_error(key, :label, 'is required') if element[:label].blank?
-        add_error(key, :data_name, 'is required') if element[:data_name].blank?
-        add_error(key, :type, 'is not one of the valid types') unless TYPES.include?(element[:type])
+        add_error(key, 'label', 'is required') if element[:label].blank?
+        add_error(key, 'data_name', 'is required') if element[:data_name].blank?
+        add_error(key, 'type', 'is not one of the valid types') unless TYPES.include?(element[:type])
 
         %w(disabled hidden required).each do |attrib|
           add_error(key, attrib, 'must be true or false') unless [true, false].include?(element[attrib])
@@ -62,33 +65,32 @@ module Fulcrum
 
         when 'ClassificationField'
           if element[:classification_set_id]
-            add_error(key, :classification_set_id, 'is required') if element[:classification_set_id].blank?
+            add_error(key, 'classification_set_id', 'is required') if element[:classification_set_id].blank?
           end
 
         when 'Section'
-          if element[:elements].is_a?(Array)
-            if element[:elements].any?
-              fields(element[:elements])
+          if element['elements'].is_a?(Array)
+            if element['elements'].any?
+              fields(element['elements'])
             else
-              add_error(key, :elements, 'must contain additional elements')
+              add_error(key, 'elements', 'must contain additional elements')
             end
           else
-            add_error(key, :elements, 'must be an array object')
+            add_error(key, 'elements', 'must be an array object')
           end
 
         when 'ChoiceField'
-          if element[:choice_list_id]
-            add_error(key, :choice_list_id, 'is required') if element[:choice_list_id].blank?
+          if element['choice_list_id']
+            add_error(key, 'choice_list_id', 'is required') if element[:choice_list_id].blank?
           else
-            if element[:choices].is_a?(Array)
-              add_error(key, :choices, 'must not be empty') if element[:choices].blank?
-              element[:choices].each do |choice|
-                unless choice.has_key?(:label) && choice[:label].present?
-                  add_error(key, :choices, 'contains an invalid label')
+            if element['choices'].is_a?(Array) && !element['choices'].blank?
+              element['choices'].each do |choice|
+                unless choice.has_key?('label') && choice['label'].present?
+                  add_error('choices', 'label', 'contains an invalid label')
                 end
               end
             else
-              add_error(key, :choices, 'must be an array object')
+              add_error(key, 'choices', 'must be a non-empty array')
             end
           end
         end

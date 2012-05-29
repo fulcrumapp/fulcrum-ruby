@@ -21,7 +21,6 @@ module Fulcrum
       
       @connection = Faraday.new(@uri) do |b|
         b.request :json
-        b.response :logger
         b.response :raise_error
         b.response :json, :content_type => "application/json"
         b.adapter Faraday.default_adapter

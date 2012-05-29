@@ -4,13 +4,12 @@ describe Fulcrum::Form do
   before(:all) do
     @uri = 'http://example.com/api/v2'
     @key = 'abc'
+    stub_request(:any, /http:\/\/.*\/api\/v2\/.*\.json/)
   end
   
   describe '#all' do
     it 'should retrieve all records' do
-      stub_request(:any, /.*\/api\/v2\/forms\.json/)
       form = Fulcrum::Form.new(uri: @uri, key: @key)
-      body = form.all
     end
   end
 end
