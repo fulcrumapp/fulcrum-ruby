@@ -5,26 +5,48 @@ module Fulcrum
         p[:page] = opts.delete(:page) if opts[:page]
         p[:per_page] = opts.delete(:per_page) if opts[:per_page]
       end
-      resp = @connection.get('classification_sets.json')
-      raise ApiError.new(resp.body, resp.status) if !resp.success?
-      resp.body
+      @response = @connection.get('classification_sets.json', params)
+      @response.body
+    rescue Faraday::Error::ClientError => e
+      raise ApiError.new(e, e.message)
     end
     
     def retrieve(id)
-      resp = @connection.get("classification_sets/#{id}.json")
-      raise ApiError.new(resp.body, resp.status) if !resp.success?
-      resp.body
+      @response = @connection.get("classification_sets/#{id}.json")
+      @response.body
+    rescue Faraday::Error::ClientError => e
+      raise ApiError.new(e, e.message)
     end
     
-    def create(attributes = {})
-      resp = @connection.post("classification_sets.json")
+    def create(classification_set)
+      validation = ClassificationSetValidator.new(classification_set)
+      if validation.valid?
+        @response = @connection.post("classification_sets.json", classification_set)
+        @response.body
+      else
+        validation.errors
+      end
+    rescue Faraday::Error::ClientError => e
+      raise ApiError.new(e, e.message)
     end
     
-    def update(id, attributes = {})
-      resp = @connection.put("classification_sets/#{id}.json")
+    def update(id, classification_set)
+      validation = ClassificationSetValidator.new(classification_set)
+      if validation.valid?
+        @response = @connection.put("classification_sets/#{id}.json", classification_set)
+        @response.body
+      else
+        validation.errors
+      end
+    rescue Faraday::Error::ClientError => e
+      raise ApiError.new(e, e.message)
     end
     
     def delete(id)
+      @response = @connection.delete("classification_sets/#{id}.json")
+      @response.body
+    rescue Faraday::Error::ClientError => e
+      raise ApiError.new(e, e.message)
     end
   end
 end
