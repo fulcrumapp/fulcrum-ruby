@@ -9,13 +9,13 @@ module Fulcrum
         p[:bounding_box] = opts.delete(:bounding_box) if opts[:bounding_box]
         p[:updated_since] = opts.delete(:updated_since) if opts[:updated_since]
       end
-      resp = @connection.get('records.json')
-      resp.body
+      @response = @connection.get('records.json')
+      @response.body
     end
     
     def retrieve(id)
-      resp = @connection.get("records/#{id}.json")
-      resp.body
+      @response = @connection.get("records/#{id}.json")
+      @response.body
     rescue Faraday::Error::ClientError => e
       raise ApiError.new(e, e.response)
     end
@@ -23,8 +23,8 @@ module Fulcrum
     def create(record)
       validation = RecordValidator.new(record)
       if validation.valid?
-        resp = @connection.post("records.json", record)
-        resp.body
+        @response = @connection.post("records.json", record)
+        @response.body
       else
         validation.errors
       end
@@ -35,8 +35,8 @@ module Fulcrum
     def update(id, record)
       validation = RecordValidator.new(record)
       if validation.valid?
-        resp = @connection.put("records/#{id}.json", record)
-        resp.body
+        @response = @connection.put("records/#{id}.json", record)
+        @response.body
       else
         validation.errors
       end
@@ -45,8 +45,8 @@ module Fulcrum
     end
     
     def delete(id)
-      resp = @connection.delete("records/#{id}.json")
-      resp.body
+      @response = @connection.delete("records/#{id}.json")
+      @response.body
     rescue Faraday::Error::ClientError => e
       raise ApiError.new(e, e.response)
     end

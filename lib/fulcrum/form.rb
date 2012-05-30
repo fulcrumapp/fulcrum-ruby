@@ -1,5 +1,6 @@
 module Fulcrum
   class Form < Api
+    
     def all(opts = {})
       opts = opts.with_indifferent_access
       params = {}.tap do |p|
@@ -7,20 +8,20 @@ module Fulcrum
         p[:schema] = opts.delete(:schema) if opts[:schema]
         p[:per_page] = opts.delete(:per_page) if opts[:per_page]
       end
-      resp = @connection.get('forms.json')
-      resp.body
+      @response = @connection.get('forms.json')
+      @response.body
     end
     
     def retrieve(id)
-      resp = @connection.get("forms/#{id}.json")
-      resp.body
+      @response = @connection.get("forms/#{id}.json")
+      @response.body
     end
     
     def create(form)
       validation = FormValidator.new(form)
       if validation.valid?
-        resp = @connection.post("forms.json", form)
-        resp.body
+        @response = @connection.post("forms.json", form)
+        @response.body
       else
         validation.errors
       end
@@ -29,16 +30,16 @@ module Fulcrum
     def update(id, form)
       validation = FormValidator.new(form)
       if validation.valid?
-        resp = @connection.put("forms/#{id}.json", form)
-        resp.body
+        @response = @connection.put("forms/#{id}.json", form)
+        @response.body
       else
         validation.errors
       end
     end
     
     def delete(id)
-      resp = @connection.delete("forms/#{id}.json")
-      resp.body
+      @response = @connection.delete("forms/#{id}.json")
+      @response.body
     end
   end
 end

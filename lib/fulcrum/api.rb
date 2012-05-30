@@ -13,6 +13,7 @@ module Fulcrum
     URI = 'http://app.fulcrumapp.com/api/v2'
     
     attr :connection
+    attr :response
     
     def initialize(opts = {})
       @uri = opts[:uri] || URI
@@ -20,7 +21,9 @@ module Fulcrum
       raise ConnectionError, 'no api key' unless @key
       
       @connection = Faraday.new(@uri) do |b|
-        b.request :json
+        b.request  :multipart
+        b.request  :url_encoded
+        b.response :logger
         b.response :raise_error
         b.response :json, :content_type => "application/json"
         b.adapter Faraday.default_adapter
@@ -33,8 +36,8 @@ module Fulcrum
     private
     def get_key(username, password)
       conn = Faraday.new(@uri) do |b|
+        b.request  :url_encoded
         b.response :raise_error
-        b.response :mashify
         b.response :json, :content_type => "application/json"
         b.adapter Faraday.default_adapter
       end
@@ -42,7 +45,7 @@ module Fulcrum
       conn.headers['User-Agent'] = "Ruby Fulcrum API Client version #{Fulcrum::VERSION}"
       conn.basic_auth(username, password)
       resp = conn.get('users.json')
-      resp.body.user.api_token
+      resp.body['user']['api_token']
     end
   end
 end
