@@ -11,6 +11,8 @@ module Fulcrum
       end
       @response = @connection.get('records.json')
       @response.body
+    rescue Faraday::Error::ClientError => e
+      raise ApiError.new(e, e.message)
     end
     
     def retrieve(id)

@@ -8,13 +8,17 @@ module Fulcrum
         p[:schema] = opts.delete(:schema) if opts[:schema]
         p[:per_page] = opts.delete(:per_page) if opts[:per_page]
       end
-      @response = @connection.get('forms.json')
+      @response = @connection.get('forms.json', params)
       @response.body
+    rescue Faraday::Error::ClientError => e
+      raise ApiError.new(e, e.message)
     end
     
     def retrieve(id)
       @response = @connection.get("forms/#{id}.json")
       @response.body
+    rescue Faraday::Error::ClientError => e
+      raise ApiError.new(e, e.response)
     end
     
     def create(form)
@@ -25,6 +29,8 @@ module Fulcrum
       else
         validation.errors
       end
+    rescue Faraday::Error::ClientError => e
+      raise ApiError.new(e, e.message)
     end
     
     def update(id, form)
@@ -35,11 +41,15 @@ module Fulcrum
       else
         validation.errors
       end
+    rescue Faraday::Error::ClientError => e
+      raise ApiError.new(e, e.message)
     end
     
     def delete(id)
       @response = @connection.delete("forms/#{id}.json")
       @response.body
+    rescue Faraday::Error::ClientError => e
+      raise ApiError.new(e, e.message)
     end
   end
 end
