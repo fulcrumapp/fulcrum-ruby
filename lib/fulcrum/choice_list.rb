@@ -5,26 +5,48 @@ module Fulcrum
         p[:page] = opts.delete(:page) if opts[:page]
         p[:per_page] = opts.delete(:per_page) if opts[:per_page]
       end
-      resp = @connection.get('choice_lists.json')
-      raise ApiError.new(resp.body, resp.status) if !resp.success?
-      resp.body
+      @response = @connection.get('choice_lists.json', params)
+      @response.body
+    rescue Faraday::Error::ClientError => e
+      raise ApiError.new(e, e.message)
     end
     
     def retrieve(id)
-      resp = @connection.get("choice_lists/#{id}.json")
-      raise ApiError.new(resp.body, resp.status) if !resp.success?
-      resp.body
+      @response = @connection.get("choice_lists/#{id}.json")
+      @response.body
+    rescue Faraday::Error::ClientError => e
+      raise ApiError.new(e, e.message)
     end
     
-    def create(attributes = {})
-      resp = @connection.post("choice_lists.json")
+    def create(choice_list)
+      validation = ChoiceListValidator.new(choice_list)
+      if validation.valid?
+        @response = @connection.post("choice_lists.json", choice_list)
+        @response.body
+      else
+        validation.errors
+      end
+    rescue Faraday::Error::ClientError => e
+      raise ApiError.new(e, e.message)
     end
     
-    def update(id, attributes = {})
-      resp = @connection.put("choice_lists/#{id}.json")
+    def update(id, choice_list)
+      validation = ChoiceListValidator.new(choice_list)
+      if validation.valid?
+        @response = @connection.put("choice_lists/#{id}.json", choice_list)
+        @response.body
+      else
+        validation.errors
+      end
+    rescue Faraday::Error::ClientError => e
+      raise ApiError.new(e, e.message)
     end
     
     def delete(id)
+      @response = @connection.delete("choice_lists/#{id}.json")
+      @response.body
+    rescue Faraday::Error::ClientError => e
+      raise ApiError.new(e, e.message)
     end
   end
 end
