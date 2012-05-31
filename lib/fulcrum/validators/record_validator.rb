@@ -1,6 +1,5 @@
 module Fulcrum
   class RecordValidator < BaseValidator
-
     def validate!
       if data['record'].kind_of?(Hash) && !data['record'].empty?
         add_error('record', 'form_id', 'cannot be blank') if data['record']['form_id'].blank?

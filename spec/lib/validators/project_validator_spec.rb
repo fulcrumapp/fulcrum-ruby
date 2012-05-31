@@ -24,7 +24,6 @@ describe Fulcrum::ProjectValidator do
     it 'should not be valid if member_ids is empty' do
       data = { 'project' => { 'title' => 'foo', 'member_ids' => [] } }
       validator = Fulcrum::ProjectValidator.new(data)
-      debugger
       validator.should_not be_valid
       validator.errors['project']['member_ids'].should_not be_blank
     end
@@ -32,7 +31,6 @@ describe Fulcrum::ProjectValidator do
     it 'should not be valid if form_ids is empty' do
       data = { 'project' => { 'title' => 'foo', 'form_ids' => [] } }
       validator = Fulcrum::ProjectValidator.new(data)
-      debugger
       validator.should_not be_valid
       validator.errors['project']['form_ids'].should_not be_blank
     end

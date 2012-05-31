@@ -32,7 +32,7 @@ module Fulcrum
     end
     
     def update(id, project)
-      validation = ProjectValidator.new(form)
+      validation = ProjectValidator.new(project)
       if validation.valid?
         @response = @connection.put("projects/#{id}.json", project)
         @response.body
