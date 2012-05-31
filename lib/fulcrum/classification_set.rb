@@ -3,7 +3,6 @@ module Fulcrum
     def all(opts = {})
       params = {}.tap do |p|
         p[:page] = opts.delete(:page) if opts[:page]
-        p[:per_page] = opts.delete(:per_page) if opts[:per_page]
       end
       @response = @connection.get('classification_sets.json', params)
       @response.body
