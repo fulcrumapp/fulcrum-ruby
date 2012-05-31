@@ -1,8 +1,12 @@
 module Fulcrum
   class Photo < Api
+    
+    ALLOWED_FORMATS = %w(json jpg)
+    ALLOWED_IMAGE_TYPES = %(png jpg)
     def retrieve(id, opts = {})
       opts = opts.with_indifferent_access
       format = opts.delete(:format) || 'jpg'
+      raise ArgumentError "#{format} is not an allowed format, use either 'json' or 'jpg'" if !ALLOWED_FORMATS.include?(format)
       @response = @connection.get("photos/#{id}.#{format}")
       @response.body
     rescue Faraday::Error::ClientError => e
@@ -17,6 +21,8 @@ module Fulcrum
     end
     
     def create(file_path, content_type, id, label = '')
+      extension = File.extname(file_path)
+      raise ArgumentError "image does not appear to be an allowed type, try 'jpg' or 'png'" if !ALLOWED_IMAGE_TYPES.include?(extension[1..(extension.size-1)])
       photo_file = Faraday::UploadIO.new(file_path, content_type)
       @response = @connection.post("photos", { photo: { file: photo_file, access_key: id, label: label }})
       @response.body
