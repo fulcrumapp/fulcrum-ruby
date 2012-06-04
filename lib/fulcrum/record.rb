@@ -4,7 +4,6 @@ module Fulcrum
       opts = opts.with_indifferent_access
       params = {}.tap do |p|
         p[:page] = opts.delete(:page) if opts[:page]
-        p[:per_page] = opts.delete(:per_page) if opts[:per_page]
         p[:form_id] = opts.delete(:form_id) if opts[:form_id]
         p[:bounding_box] = opts.delete(:bounding_box) if opts[:bounding_box]
         p[:updated_since] = opts.delete(:updated_since) if opts[:updated_since]
