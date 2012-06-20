@@ -2,7 +2,7 @@ module Fulcrum
   class ChoiceList < Api
     def all(opts = {})
       params = {}.tap do |p|
-        p[:page] = opts.delete(:page) if opts[:page]
+        p[:page] = opts.delete(:page).to_i if opts[:page]
       end
       @response = @connection.get('choice_lists.json', params)
       @response.body
