@@ -1,6 +1,6 @@
 module Fulcrum
   class Record < Api
-    def all(opts = {})
+    def self.all(opts = {})
       opts = opts.with_indifferent_access
       params = {}.tap do |p|
         p[:page] = opts.delete(:page).to_i if opts[:page]
@@ -8,23 +8,23 @@ module Fulcrum
         p[:bounding_box] = opts.delete(:bounding_box) if opts[:bounding_box]
         p[:updated_since] = opts.delete(:updated_since) if opts[:updated_since]
       end
-      @response = @connection.get('records.json')
+      @response = connection.get('records.json')
       @response.body
     rescue Faraday::Error::ClientError => e
       raise ApiError.new(e, e.message)
     end
-    
-    def retrieve(id)
-      @response = @connection.get("records/#{id}.json")
+
+    def self.retrieve(id)
+      @response = connection.get("records/#{id}.json")
       @response.body
     rescue Faraday::Error::ClientError => e
       raise ApiError.new(e, e.response)
     end
-    
-    def create(record)
+
+    def self.create(record)
       validation = RecordValidator.new(record)
       if validation.valid?
-        @response = @connection.post("records.json", record)
+        @response = connection.post("records.json", record)
         @response.body
       else
         validation.errors
@@ -32,11 +32,11 @@ module Fulcrum
     rescue Faraday::Error::ClientError => e
       raise ApiError.new(e, e.response)
     end
-    
-    def update(id, record)
+
+    def self.update(id, record)
       validation = RecordValidator.new(record)
       if validation.valid?
-        @response = @connection.put("records/#{id}.json", record)
+        @response = connection.put("records/#{id}.json", record)
         @response.body
       else
         validation.errors
@@ -44,9 +44,9 @@ module Fulcrum
     rescue Faraday::Error::ClientError => e
       raise ApiError.new(e, e.response)
     end
-    
-    def delete(id)
-      @response = @connection.delete("records/#{id}.json")
+
+    def self.delete(id)
+      @response = connection.delete("records/#{id}.json")
       @response.body
     rescue Faraday::Error::ClientError => e
       raise ApiError.new(e, e.response)

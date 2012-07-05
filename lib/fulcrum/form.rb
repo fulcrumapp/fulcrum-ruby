@@ -1,33 +1,33 @@
 module Fulcrum
   class Form < Api
-    
-    def all(opts = {})
+
+    def self.all(opts = {})
       opts = opts.with_indifferent_access
       params = {}.tap do |p|
         p[:page] = opts.delete(:page).to_i if opts[:page]
         p[:schema] = opts.delete(:schema).to_s if opts[:schema]
       end
-      @response = @connection.get('forms.json', params)
+      @response = connection.get('forms.json', params)
       @response.body
     rescue Faraday::Error::ClientError => e
       raise ApiError.new(e, e.message)
     end
-    
-    def retrieve(id, opts = {})
+
+    def self.retrieve(id, opts = {})
       opts = opts.with_indifferent_access
       params = {}.tap do |p|
         p[:include_foreign_elements] = opts.delete(:include_foreign_elements).to_s if opts[:include_foreign_elements]
       end
-      @response = @connection.get("forms/#{id}.json", params)
+      @response = connection.get("forms/#{id}.json", params)
       @response.body
     rescue Faraday::Error::ClientError => e
       raise ApiError.new(e, e.response)
     end
-    
-    def create(form)
+
+    def self.create(form)
       validation = FormValidator.new(form)
       if validation.valid?
-        @response = @connection.post("forms.json", form)
+        @response = connection.post("forms.json", form)
         @response.body
       else
         validation.errors
@@ -35,11 +35,11 @@ module Fulcrum
     rescue Faraday::Error::ClientError => e
       raise ApiError.new(e, e.message)
     end
-    
-    def update(id, form)
+
+    def self.update(id, form)
       validation = FormValidator.new(form)
       if validation.valid?
-        @response = @connection.put("forms/#{id}.json", form)
+        @response = connection.put("forms/#{id}.json", form)
         @response.body
       else
         validation.errors
@@ -47,9 +47,9 @@ module Fulcrum
     rescue Faraday::Error::ClientError => e
       raise ApiError.new(e, e.message)
     end
-    
-    def delete(id)
-      @response = @connection.delete("forms/#{id}.json")
+
+    def self.delete(id)
+      @response = connection.delete("forms/#{id}.json")
       @response.body
     rescue Faraday::Error::ClientError => e
       raise ApiError.new(e, e.message)
