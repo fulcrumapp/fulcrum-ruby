@@ -15,58 +15,65 @@ module Fulcrum
 
     attr_writer :configuration
 
-    def key
-      @configuration.key
-    end
+    class << self
 
-    def host
-      @configuration.host
-    end
+      def key
+        @configuration.key
+      end
 
-    def self.connection
-      @connection
-    end
+      def uri
+        @configuration.uri
+      end
 
-    def self.response
-      @response
-    end
+      def connection
+        @connection
+      end
 
-    def self.configure(silent = false)
-      yield(configuration)
-    end
+      def response
+        @response
+      end
 
-    def self.configuration
-      @configuration ||= Configuration.new
-    end
+      def configure(silent = false)
+        yield(configuration)
+      end
 
-    def self.connection
-      if !@connection
-        @connection = Faraday.new(Fulcrum::Api.configuration.uri) do |b|
-          b.request  :multipart
-          b.request  :url_encoded
-          b.response :logger
-          b.response :raise_error
-          b.response :json, :content_type => 'appliation/json'
-          b.adapter  Faraday.default_adapter
+      def configuration
+        @configuration ||= Configuration.new
+      end
+
+      def connection
+        if !@connection
+          @connection = Faraday.new(Fulcrum::Api.configuration.uri) do |b|
+            b.request  :multipart
+            b.request  :url_encoded
+            b.response :raise_error
+            b.response :json , :content_type => 'application/json'
+            b.adapter  Faraday.default_adapter
+          end
+          @connection.headers['X-ApiToken'] = Fulcrum::Api.configuration.key
+          @connection.headers['User-Agent'] = "Ruby Fulcrum API Client, Version #{Fulcrum::VERSION}"
         end
-        @connection.headers['X-ApiToken'] = Fulcrum::Api.configuration.key
-        @connection.headers['User-Agent'] = "Ruby Fulcrum API Client, Version #{Fulcrum::VERSION}"
-      end
-      @connection
-    end
-
-    def self.get_key(username, password)
-      conn = Faraday.new(uri) do |b|
-        b.request  :url_encoded
-        b.response :raise_error
-        b.response :json, :content_type => "application/json"
-        b.adapter Faraday.default_adapter
+        @connection
       end
 
-      conn.headers['User-Agent'] = "Ruby Fulcrum API Client version #{Fulcrum::VERSION}"
-      conn.basic_auth(username, password)
-      resp = conn.get('users.json')
-      resp.body['user']['api_token']
+      def get_key(username, password)
+        conn = Faraday.new(uri) do |b|
+          b.request  :url_encoded
+          b.response :raise_error
+          b.response :json, :content_type => "application/json"
+          b.adapter Faraday.default_adapter
+        end
+
+        conn.headers['User-Agent'] = "Ruby Fulcrum API Client version #{Fulcrum::VERSION}"
+        conn.basic_auth(username, password)
+        resp = conn.get('users.json')
+        body = JSON.parse(resp.body)
+        if body['user']
+          body['user']['api_token']
+        else
+          nil
+        end
+      end
     end
 
     class Configuration

@@ -14,4 +14,12 @@ describe Fulcrum::Project do
     Fulcrum::Api.configuration.uri.should eq(@uri)
     Fulcrum::Api.configuration.key.should eq(@key)
   end
+
+  it 'should get the key' do
+    user = "foo@bar.com"
+    pass = "foobar"
+    stub_request(:get, /.*\/users.json/).to_return(:status => 200, :body => '{ "user": { "api_token": "foobar" }}')
+    Fulcrum::Api.get_key(user, pass).should eq('foobar')
+
+  end
 end
