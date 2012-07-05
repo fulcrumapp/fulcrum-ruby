@@ -33,7 +33,7 @@ module Fulcrum
         @response
       end
 
-      def configure(silent = false)
+      def configure
         yield(configuration)
       end
 
