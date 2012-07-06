@@ -29,7 +29,7 @@ describe Fulcrum::Record do
       it 'should retrieve the specified record' do
         record_id = 'abc'
         stub_request(:get, "#{Fulcrum::Api.configuration.uri}/records/#{record_id}.json").to_return(:status => 200, :body => '{"record":{}}')
-        r = Fulcrum::Record.retrieve('abc')
+        r = Fulcrum::Record.find('abc')
         Fulcrum::Record.response.status.should eq(200)
         r = JSON.parse(r)
         r.keys.should include('record')
@@ -80,7 +80,7 @@ describe Fulcrum::Record do
       it 'should receive 404' do
         record_id = 'abc'
         stub_request(:get, "#{Fulcrum::Api.configuration.uri}/records/#{record_id}.json").to_return(:status => 404)
-        expect { Fulcrum::Record.retrieve(record_id) }.to raise_error(/404/)
+        expect { Fulcrum::Record.find(record_id) }.to raise_error(/404/)
       end
     end
 

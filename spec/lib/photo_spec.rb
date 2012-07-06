@@ -14,7 +14,7 @@ describe Fulcrum::Photo do
       it 'should retrieve the specified photo' do
         photo_id = 'abc'
         stub_request(:get, "#{Fulcrum::Api.configuration.uri}/photos/#{photo_id}.jpg").to_return(:status => 200)
-        Fulcrum::Photo.retrieve('abc', format: 'jpg')
+        Fulcrum::Photo.find('abc', format: 'jpg')
         Fulcrum::Photo.response.status.should eq(200)
       end
     end
@@ -55,7 +55,7 @@ describe Fulcrum::Photo do
       it 'should receive 404' do
         photo_id = 'abc'
         stub_request(:get, "#{Fulcrum::Api.configuration.uri}/photos/#{photo_id}.jpg").to_return(:status => 404)
-        expect { Fulcrum::Photo.retrieve(photo_id, format: 'jpg') }.to raise_error(/404/)
+        expect { Fulcrum::Photo.find(photo_id, format: 'jpg') }.to raise_error(/404/)
       end
     end
 

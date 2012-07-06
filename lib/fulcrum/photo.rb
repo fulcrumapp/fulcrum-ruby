@@ -4,7 +4,7 @@ module Fulcrum
     ALLOWED_FORMATS = %w(json jpg)
     ALLOWED_IMAGE_TYPES = %(png jpg)
 
-    def self.retrieve(id, opts = {})
+    def self.find(id, opts = {})
       opts = opts.with_indifferent_access
       format = opts.delete(:format).to_s || 'jpg'
       raise ArgumentError "#{format} is not an allowed format, use either 'json' or 'jpg'" if !ALLOWED_FORMATS.include?(format)

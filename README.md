@@ -18,7 +18,13 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+    Fulcrum::Api.configure do |config|
+      config.uri = 'http://web.fulcrumapp.com/api/v2'
+      config.key = 'your_api_key'
+    end
+
+    forms = Fulcrum::Form.all
+    form = Fulcrum::Form.find(id)
 
 ## Contributing
 

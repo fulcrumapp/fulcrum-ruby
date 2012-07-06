@@ -13,7 +13,7 @@ module Fulcrum
       raise ApiError.new(e, e.message)
     end
 
-    def self.retrieve(id, opts = {})
+    def self.find(id, opts = {})
       opts = opts.with_indifferent_access
       params = {}.tap do |p|
         p[:include_foreign_elements] = opts.delete(:include_foreign_elements).to_s if opts[:include_foreign_elements]

@@ -10,7 +10,7 @@ module Fulcrum
       raise ApiError.new(e, e.message)
     end
 
-    def self.retrieve(id)
+    def self.find(id)
       @response = connection.get("choice_lists/#{id}.json")
       @response.body
     rescue Faraday::Error::ClientError => e

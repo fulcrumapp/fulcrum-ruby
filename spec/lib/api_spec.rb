@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Fulcrum::Project do
+describe Fulcrum::Api do
   before(:all) do
     @uri = 'http://foo.bar/api/v2'
     @key = 'foobar'

@@ -28,7 +28,7 @@ describe Fulcrum::ClassificationSet do
       it 'should retrieve the specified classification_set and return 200' do
         cs_id = "abc"
         stub_request(:get, "#{Fulcrum::Api.configuration.uri}/classification_sets/#{cs_id}.json").to_return(:status => 200, :body => '{"classification_set":{}}')
-        c = Fulcrum::ClassificationSet.retrieve(cs_id)
+        c = Fulcrum::ClassificationSet.find(cs_id)
         Fulcrum::ClassificationSet.response.status.should eq(200)
         c = JSON.parse(c)
         c.keys.should include('classification_set')
@@ -79,7 +79,7 @@ describe Fulcrum::ClassificationSet do
       it 'should receive 404' do
         cs_id = 'abc'
         stub_request(:get, "#{Fulcrum::Api.configuration.uri}/classification_sets/#{cs_id}.json").to_return(:status => 404)
-        expect { Fulcrum::ClassificationSet.retrieve(cs_id) }.to raise_error(/404/)
+        expect { Fulcrum::ClassificationSet.find(cs_id) }.to raise_error(/404/)
       end
     end
 

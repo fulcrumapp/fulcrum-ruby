@@ -29,7 +29,7 @@ describe Fulcrum::Member do
       it 'should retrieve the specified member' do
         member_id = 'abc'
         stub_request(:get, "#{Fulcrum::Api.configuration.uri}/members/#{member_id}.json").to_return(:status => 200, :body => '{"member":{}}')
-        m = Fulcrum::Member.retrieve('abc')
+        m = Fulcrum::Member.find('abc')
         Fulcrum::Member.response.status.should eq(200)
         m = JSON.parse(m)
         m.keys.should include('member')
@@ -43,7 +43,7 @@ describe Fulcrum::Member do
       it 'should receive 404' do
         member_id = 'abc'
         stub_request(:get, "#{Fulcrum::Api.configuration.uri}/members/#{member_id}.json").to_return(:status => 404)
-        expect { Fulcrum::Member.retrieve(member_id) }.to raise_error(/404/)
+        expect { Fulcrum::Member.find(member_id) }.to raise_error(/404/)
       end
     end
   end

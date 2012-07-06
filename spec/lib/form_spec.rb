@@ -29,7 +29,7 @@ describe Fulcrum::Form do
       it 'should retrieve the specified record and return 200' do
         form_id = "abc"
         stub_request(:get, "#{Fulcrum::Api.configuration.uri}/forms/#{form_id}.json").to_return(:status => 200, :body => '{"form":{}}')
-        f = Fulcrum::Form.retrieve(form_id)
+        f = Fulcrum::Form.find(form_id)
         Fulcrum::Form.response.status.should eq(200)
         f = JSON.parse(f)
         f.keys.should include('form')
@@ -80,7 +80,7 @@ describe Fulcrum::Form do
       it 'should receive 404' do
         form_id = 'abc'
         stub_request(:get, "#{Fulcrum::Api.configuration.uri}/forms/#{form_id}.json").to_return(:status => 404)
-        expect { Fulcrum::Form.retrieve(form_id) }.to raise_error(/404/)
+        expect { Fulcrum::Form.find(form_id) }.to raise_error(/404/)
       end
     end
 

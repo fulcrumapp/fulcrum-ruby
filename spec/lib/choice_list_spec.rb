@@ -28,7 +28,7 @@ describe Fulcrum::ChoiceList do
       it 'should retrieve the specified choice_list and return 200' do
         cl_id = "abc"
         stub_request(:get, "#{Fulcrum::Api.configuration.uri}/choice_lists/#{cl_id}.json").to_return(:status => 200, :body => '{"choice_list":{}}')
-        c = Fulcrum::ChoiceList.retrieve(cl_id)
+        c = Fulcrum::ChoiceList.find(cl_id)
         Fulcrum::ChoiceList.response.status.should eq(200)
         c = JSON.parse(c)
         c.keys.should include('choice_list')
@@ -79,7 +79,7 @@ describe Fulcrum::ChoiceList do
       it 'should receive 404' do
         cl_id = 'abc'
         stub_request(:get, "#{Fulcrum::Api.configuration.uri}/choice_lists/#{cl_id}.json").to_return(:status => 404)
-        expect { Fulcrum::ChoiceList.retrieve(cl_id) }.to raise_error(/404/)
+        expect { Fulcrum::ChoiceList.find(cl_id) }.to raise_error(/404/)
       end
     end
 
