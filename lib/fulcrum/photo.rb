@@ -6,8 +6,8 @@ module Fulcrum
 
     def self.find(id, opts = {})
       opts = opts.with_indifferent_access
-      format = opts.delete(:format).to_s || 'jpg'
-      raise ArgumentError, "#{format} is not an allowed format, use either 'json' or 'jpg'" if !ALLOWED_FORMATS.include?(format)
+      format = opts.delete(:format) || 'jpg'
+      raise ArgumentError, "#{format} is not an allowed format, use either 'json' or 'jpg'" unless ALLOWED_FORMATS.include?(format)
       @response = connection.get("photos/#{id}.#{format}")
       @response.body
     rescue Faraday::Error::ClientError => e
