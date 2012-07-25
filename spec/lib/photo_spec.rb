@@ -23,7 +23,7 @@ describe Fulcrum::Photo do
       it 'should create a new photo and return status 201' do
         stub_request(:post, "#{Fulcrum::Api.configuration.uri}/photos").to_return(:status => 201)
         pic = File.join(File.dirname(__FILE__), '..', 'data', 'test.jpg')
-        Fulcrum::Photo.create(pic, "image/jpeg", "abc123")
+        Fulcrum::Photo.create(pic, "image/*", "")
         Fulcrum::Photo.response.status.should eq(201)
       end
     end
@@ -63,7 +63,7 @@ describe Fulcrum::Photo do
       it 'should receive a 422 response' do
         stub_request(:post, "#{Fulcrum::Api.configuration.uri}/photos").to_return(:status => 422)
         pic = File.join(File.dirname(__FILE__), '..', 'data', 'test.jpg')
-        expect { Fulcrum::Photo.create(pic, 'image/jpeg', 'abc') }.to raise_error(/422/)
+        expect { Fulcrum::Photo.create(pic, 'image/*', '') }.to raise_error(/422/)
       end
     end
 

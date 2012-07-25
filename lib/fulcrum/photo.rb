@@ -21,11 +21,9 @@ module Fulcrum
       raise ApiError.new(e, e.response)
     end
 
-    def self.create(file_path, content_type, id, label = '')
-      extension = File.extname(file_path)
-      raise ArgumentError "image does not appear to be an allowed type, try 'jpg' or 'png'" if !ALLOWED_IMAGE_TYPES.include?(extension[1..(extension.size-1)])
-      photo_file = Faraday::UploadIO.new(file_path, content_type)
-      @response = connection.post("photos", { photo: { file: photo_file, access_key: id, label: label }})
+    def self.create(file, content_type, id, label = '')
+      photo = Faraday::UploadIO.new(file, content_type)
+      @response = connection.post("photos", { photo: { file: photo, access_key: id, label: label }})
       @response.body
     rescue Faraday::Error::ClientError => e
       raise ApiError.new(e, e.response)
