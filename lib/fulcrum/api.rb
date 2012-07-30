@@ -45,7 +45,7 @@ module Fulcrum
         if !@connection
           @connection = Faraday.new(Fulcrum::Api.configuration.uri) do |b|
             b.request  :multipart
-            b.request  :url_encoded
+            b.request  :json
             b.response :raise_error
             b.response :json , :content_type => 'application/json'
             b.adapter  Faraday.default_adapter
