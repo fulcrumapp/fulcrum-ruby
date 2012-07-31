@@ -3,10 +3,10 @@ module Fulcrum
     def self.all(opts = {})
       opts = opts.with_indifferent_access
       params = {}.tap do |p|
-        p[:page] = opts.delete(:page).to_i if opts[:page]
-        p[:form_id] = opts.delete(:form_id).to_s if opts[:form_id]
-        p[:bounding_box] = opts.delete(:bounding_box) if opts[:bounding_box]
-        p[:updated_since] = opts.delete(:updated_since) if opts[:updated_since]
+        p[:page] = opts.delete(:page).to_i if opts.has_key?(:page)
+        p[:form_id] = opts.delete(:form_id).to_s if opts.has_key?(:form_id)
+        p[:bounding_box] = opts.delete(:bounding_box) if opts.has_key?(:bounding_box)
+        p[:updated_since] = opts.delete(:updated_since) if opts.has_key?(:updated_since)
       end
       @response = connection.get('records.json')
       @response.body

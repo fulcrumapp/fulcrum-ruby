@@ -3,7 +3,7 @@ module Fulcrum
     def self.all(opts = {})
       opts = opts.with_indifferent_access
       params = {}.tap do |p|
-        p[:page] = opts.delete(:page).to_i if opts[:page]
+        p[:page] = opts.delete(:page).to_i if opts.has_key?(:page)
       end
       @response = connection.get('members.json', params)
       @response.body

@@ -4,9 +4,10 @@ module Fulcrum
     def self.all(opts = {})
       opts = opts.with_indifferent_access
       params = {}.tap do |p|
-        p[:page] = opts.delete(:page).to_i if opts[:page]
-        p[:schema] = opts.delete(:schema).to_s if opts[:schema]
+        p[:page] = opts.delete(:page).to_i if opts.has_key?(:page)
+        p[:schema] = opts.delete(:schema).to_s if opts.has_key?(:schema)
       end
+      debugger
       @response = connection.get('forms.json', params)
       @response.body
     rescue Faraday::Error::ClientError => e
@@ -16,7 +17,7 @@ module Fulcrum
     def self.find(id, opts = {})
       opts = opts.with_indifferent_access
       params = {}.tap do |p|
-        p[:include_foreign_elements] = opts.delete(:include_foreign_elements).to_s if opts[:include_foreign_elements]
+        p[:include_foreign_elements] = opts.delete(:include_foreign_elements).to_s if opts.has_key?(:include_foreign_elements)
       end
       @response = connection.get("forms/#{id}.json", params)
       @response.body
