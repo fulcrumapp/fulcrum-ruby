@@ -1,8 +1,6 @@
 require 'faraday'
 require 'faraday_middleware'
 
-# test api key = 94d6975af5f021b5c6d6b2e473f246e2d6bcf5c83884252c6135d0fee56d7b27
-
 module Fulcrum
 
   class ApiError < Faraday::Error::ClientError; end
