@@ -11,6 +11,7 @@ module Fulcrum
       @response = connection.get('forms.json', params)
       @response.body
     rescue Faraday::Error::ClientError => e
+      @response = e.response
       raise ApiError.new(e, e.message)
     end
 
@@ -22,6 +23,7 @@ module Fulcrum
       @response = connection.get("forms/#{id}.json", params)
       @response.body
     rescue Faraday::Error::ClientError => e
+      @response = e.response
       raise ApiError.new(e, e.response)
     end
 
@@ -34,6 +36,7 @@ module Fulcrum
         validation.errors
       end
     rescue Faraday::Error::ClientError => e
+      @response = e.response
       raise ApiError.new(e, e.message)
     end
 
@@ -46,6 +49,7 @@ module Fulcrum
         validation.errors
       end
     rescue Faraday::Error::ClientError => e
+      @response = e.response
       raise ApiError.new(e, e.message)
     end
 
@@ -53,6 +57,7 @@ module Fulcrum
       @response = connection.delete("forms/#{id}.json")
       @response.body
     rescue Faraday::Error::ClientError => e
+      @response = e.response
       raise ApiError.new(e, e.message)
     end
   end

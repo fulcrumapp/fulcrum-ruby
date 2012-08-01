@@ -11,6 +11,7 @@ module Fulcrum
       @response = connection.get("photos/#{id}.#{format}")
       @response.body
     rescue Faraday::Error::ClientError => e
+      @response = e.response
       raise ApiError.new(e, e.response)
     end
 
@@ -18,6 +19,7 @@ module Fulcrum
       @response = connection.get("photos/#{id}/thumbnail.jpg")
       @response.body
     rescue Faraday::Error::ClientError => e
+      @response = e.response
       raise ApiError.new(e, e.response)
     end
 
@@ -26,6 +28,7 @@ module Fulcrum
       @response = connection.post("photos", { photo: { file: photo, access_key: id, label: label }})
       @response.body
     rescue Faraday::Error::ClientError => e
+      @response = e.response
       raise ApiError.new(e, e.response)
     end
 
@@ -33,6 +36,7 @@ module Fulcrum
       @response = connection.delete("photos/#{id}.json")
       @response.body
     rescue Faraday::Error::ClientError => e
+      @response = e.response
       raise ApiError.new(e, e.message)
     end
   end

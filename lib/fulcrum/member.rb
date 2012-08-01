@@ -8,6 +8,7 @@ module Fulcrum
       @response = connection.get('members.json', params)
       @response.body
     rescue Faraday::Error::ClientError => e
+      @response = e.response
       raise ApiError.new(e, e.message)
     end
 
@@ -15,6 +16,7 @@ module Fulcrum
       @response = connection.get("members/#{id}.json")
       @response.body
     rescue Faraday::Error::ClientError => e
+      @response = e.response
       raise ApiError.new(e, e.message)
     end
   end

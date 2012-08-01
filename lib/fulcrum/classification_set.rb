@@ -8,6 +8,7 @@ module Fulcrum
       @response = connection.get('classification_sets.json', params)
       @response.body
     rescue Faraday::Error::ClientError => e
+      @response = e.response
       raise ApiError.new(e, e.message)
     end
 
@@ -15,6 +16,7 @@ module Fulcrum
       @response = connection.get("classification_sets/#{id}.json")
       @response.body
     rescue Faraday::Error::ClientError => e
+      @response = e.response
       raise ApiError.new(e, e.message)
     end
 
@@ -27,6 +29,7 @@ module Fulcrum
         validation.errors
       end
     rescue Faraday::Error::ClientError => e
+      @response = e.response
       raise ApiError.new(e, e.message)
     end
 
@@ -39,6 +42,7 @@ module Fulcrum
         validation.errors
       end
     rescue Faraday::Error::ClientError => e
+      @response = e.response
       raise ApiError.new(e, e.message)
     end
 
@@ -46,6 +50,7 @@ module Fulcrum
       @response = connection.delete("classification_sets/#{id}.json")
       @response.body
     rescue Faraday::Error::ClientError => e
+      @response = e.response
       raise ApiError.new(e, e.message)
     end
   end
