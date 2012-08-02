@@ -17,7 +17,7 @@ module Fulcrum
         if validation.valid?
           call(:post, 'choice_lists.json', choice_list)
         else
-          { error: { validation: validation.errors } } }
+          { error: { validation: validation.errors } }
         end
       end
 
@@ -26,7 +26,7 @@ module Fulcrum
         if validation.valid?
           call(:put, "choice_lists/#{id}.json", choice_list)
         else
-          { error: { validation: { validation.errors } } }
+          { error: { validation: validation.errors } }
         end
       end
 
