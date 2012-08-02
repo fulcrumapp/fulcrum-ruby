@@ -18,7 +18,7 @@ module Fulcrum
         if validation.valid?
           call(:post, "forms.json", form)
         else
-          validation.errors
+          { error: { validation: { validation.errors } }
         end
       end
 
@@ -27,7 +27,7 @@ module Fulcrum
         if validation.valid?
           call(:put, "forms/#{id}.json", form)
         else
-          validation.errors
+          { error: { validation: { validation.errors } }
         end
       end
 

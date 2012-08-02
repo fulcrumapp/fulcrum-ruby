@@ -13,7 +13,7 @@ module Fulcrum
     def form_elements
       data['form']['elements']
     end
-    
+
     def form_name
       data['form']['name']
     end
