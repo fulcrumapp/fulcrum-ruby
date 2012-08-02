@@ -17,7 +17,7 @@ module Fulcrum
         if validation.valid?
           call(:post, 'classification_sets.json', classification_set)
         else
-          { error: { validation: { validation.errors } }
+          { error: { validation: { validation.errors } } }
         end
       end
 
@@ -26,7 +26,7 @@ module Fulcrum
         if validation.valid?
           call(:put, "classification_sets/#{id}.json", classification_set)
         else
-          { error: { validation: { validation.errors } }
+          { error: { validation: { validation.errors } } }
         end
       end
 
