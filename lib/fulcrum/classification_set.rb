@@ -1,57 +1,39 @@
 module Fulcrum
   class ClassificationSet < Api
-    def self.all(opts = {})
-      opts = opts.with_indifferent_access
-      params = {}.tap do |p|
-        p[:page] = opts.delete(:page).to_i if opts.has_key?(:page)
+
+    class << self
+
+      def all(opts = {})
+        params = parse_opts([:page], opts)
+        call(:get, 'classification_sets.json', params)
       end
-      @response = connection.get('classification_sets.json', params)
-      @response.body
-    rescue Faraday::Error::ClientError => e
-      @response = e.response
-      raise ApiError.new(e, e.message)
-    end
 
-    def self.find(id)
-      @response = connection.get("classification_sets/#{id}.json")
-      @response.body
-    rescue Faraday::Error::ClientError => e
-      @response = e.response
-      raise ApiError.new(e, e.message)
-    end
-
-    def self.create(classification_set)
-      validation = ClassificationSetValidator.new(classification_set)
-      if validation.valid?
-        @response = connection.post("classification_sets.json", classification_set)
-        @response.body
-      else
-        validation.errors
+      def find(id)
+        call(:get, "classification_sets/#{id}.json")
       end
-    rescue Faraday::Error::ClientError => e
-      @response = e.response
-      raise ApiError.new(e, e.message)
-    end
 
-    def self.update(id, classification_set)
-      validation = ClassificationSetValidator.new(classification_set)
-      if validation.valid?
-        @response = connection.put("classification_sets/#{id}.json", classification_set)
-        @response.body
-      else
-        validation.errors
+      def create(classification_set)
+        validation = ClassificationSetValidator.new(classification_set)
+        if validation.valid?
+          call(:post, 'classification_sets.json', classification_set)
+        else
+          validation.errors
+        end
       end
-    rescue Faraday::Error::ClientError => e
-      @response = e.response
-      raise ApiError.new(e, e.message)
+
+      def update(id, classification_set)
+        validation = ClassificationSetValidator.new(classification_set)
+        if validation.valid?
+          call(:put, "classification_sets/#{id}.json", classification_set)
+        else
+          validation.errors
+        end
+      end
+
+      def delete(id)
+        call(:delete, "classification_sets/#{id}.json")
+      end
     end
 
-    def self.delete(id)
-      @response = connection.delete("classification_sets/#{id}.json")
-      @response.body
-    rescue Faraday::Error::ClientError => e
-      @response = e.response
-      raise ApiError.new(e, e.message)
-    end
   end
 end

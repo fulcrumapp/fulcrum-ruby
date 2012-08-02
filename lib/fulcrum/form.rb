@@ -1,64 +1,39 @@
 module Fulcrum
   class Form < Api
 
-    def self.all(opts = {})
-      opts = opts.with_indifferent_access
-      params = {}.tap do |p|
-        p[:page] = opts.delete(:page).to_i if opts.has_key?(:page)
-        p[:schema] = opts.delete(:schema).to_s if opts.has_key?(:schema)
-      end
-      debugger
-      @response = connection.get('forms.json', params)
-      @response.body
-    rescue Faraday::Error::ClientError => e
-      @response = e.response
-      raise ApiError.new(e, e.message)
-    end
+    class << self
 
-    def self.find(id, opts = {})
-      opts = opts.with_indifferent_access
-      params = {}.tap do |p|
-        p[:include_foreign_elements] = opts.delete(:include_foreign_elements).to_s if opts.has_key?(:include_foreign_elements)
+      def all(opts = {})
+        params = self.parse_opts([:page, :schema], opts)
+        self.call(:get, 'forms.json', params)
       end
-      @response = connection.get("forms/#{id}.json", params)
-      @response.body
-    rescue Faraday::Error::ClientError => e
-      @response = e.response
-      raise ApiError.new(e, e.response)
-    end
 
-    def self.create(form)
-      validation = FormValidator.new(form)
-      if validation.valid?
-        @response = connection.post("forms.json", form)
-        @response.body
-      else
-        validation.errors
+      def find(id, opts = {})
+        params = parse_opts([:include_foreign_elements], opts)
+        call(:get, "forms/#{id}.json", params)
       end
-    rescue Faraday::Error::ClientError => e
-      @response = e.response
-      raise ApiError.new(e, e.message)
-    end
 
-    def self.update(id, form)
-      validation = FormValidator.new(form)
-      if validation.valid?
-        @response = connection.put("forms/#{id}.json", form)
-        @response.body
-      else
-        validation.errors
+      def create(form)
+        validation = FormValidator.new(form)
+        if validation.valid?
+          call(:post, "forms.json", form)
+        else
+          validation.errors
+        end
       end
-    rescue Faraday::Error::ClientError => e
-      @response = e.response
-      raise ApiError.new(e, e.message)
-    end
 
-    def self.delete(id)
-      @response = connection.delete("forms/#{id}.json")
-      @response.body
-    rescue Faraday::Error::ClientError => e
-      @response = e.response
-      raise ApiError.new(e, e.message)
+      def update(id, form)
+        validation = FormValidator.new(form)
+        if validation.valid?
+          call(:put, "forms/#{id}.json", form)
+        else
+          validation.errors
+        end
+      end
+
+      def delete(id)
+        call(:delete, "forms/#{id}.json")
+      end
     end
   end
 end

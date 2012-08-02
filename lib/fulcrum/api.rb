@@ -8,9 +8,10 @@ module Fulcrum
 
   class Api
 
+    VALID_METHODS = [:get, :post, :put, :delete]
+
     attr :connection
     attr :response
-
     attr_writer :configuration
 
     class << self
@@ -23,12 +24,24 @@ module Fulcrum
         @configuration.uri
       end
 
-      def connection
-        @connection
-      end
-
       def response
         @response
+      end
+
+      def parse_opts(keys = [], opts = {})
+        opts = opts.with_indifferent_access
+        {}.tap do |p|
+          keys.each { |key| p[key.to_sym] = opts[key] if opts.has_key?(key) }
+        end
+      end
+
+      def call(method = :get, path = '', params = {})
+        raise ArgumentError, "Invalid method: #{method.to_s}" unless VALID_METHODS.include?(method.to_sym)
+        @response = connection.send(method.to_sym, path, params)
+        @response.body
+      rescue Faraday::Error::ClientError => e
+        @response = e.response
+        { error: { status: @response[:status], message: @response[:body] } }
       end
 
       def configure

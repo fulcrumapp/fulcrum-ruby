@@ -1,23 +1,16 @@
 module Fulcrum
   class Member < Api
-    def self.all(opts = {})
-      opts = opts.with_indifferent_access
-      params = {}.tap do |p|
-        p[:page] = opts.delete(:page).to_i if opts.has_key?(:page)
-      end
-      @response = connection.get('members.json', params)
-      @response.body
-    rescue Faraday::Error::ClientError => e
-      @response = e.response
-      raise ApiError.new(e, e.message)
-    end
 
-    def self.find(id)
-      @response = connection.get("members/#{id}.json")
-      @response.body
-    rescue Faraday::Error::ClientError => e
-      @response = e.response
-      raise ApiError.new(e, e.message)
+    class << self
+
+      def all(opts = {})
+        params = parse_opts([:page], opts)
+        call(:get, 'members.json', params)
+      end
+
+      def find(id)
+        call(:get, "members/#{id}.json")
+      end
     end
   end
 end

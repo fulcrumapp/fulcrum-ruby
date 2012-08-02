@@ -43,7 +43,9 @@ describe Fulcrum::Member do
       it 'should receive 404' do
         member_id = 'abc'
         stub_request(:get, "#{Fulcrum::Api.configuration.uri}/members/#{member_id}.json").to_return(:status => 404)
-        expect { Fulcrum::Member.find(member_id) }.to raise_error(/404/)
+        m = Fulcrum::Member.find(member_id)
+        m.keys.should include(:error)
+        m[:error][:status].should eq(404)
       end
     end
   end

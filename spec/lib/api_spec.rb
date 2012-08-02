@@ -20,6 +20,20 @@ describe Fulcrum::Api do
     pass = "foobar"
     stub_request(:get, /.*\/users.json/).to_return(:status => 200, :body => '{ "user": { "api_token": "foobar" }}')
     Fulcrum::Api.get_key(user, pass).should eq('foobar')
+  end
 
+  it 'parse_opts should return only expected opts' do
+    params = Fulcrum::Api.parse_opts([:foo], { foo: 'bar', bar: 'foo'})
+    params.has_key?(:foo).should be(true)
+    params[:foo].should eq('bar')
+    params.has_key?(:bar).should be(false)
+  end
+
+  it 'call should raise ArgumentError with invalid method' do
+    expect { Fulcrum::Api.call(:foo) }.to raise_error(ArgumentError)
+  end
+
+  it 'call should not raise ArgumentError with valid method' do
+    expect { Fulcrum::Api.call(:get) }.to_not raise_error(ArgumentError)
   end
 end

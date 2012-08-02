@@ -80,7 +80,9 @@ describe Fulcrum::Record do
       it 'should receive 404' do
         record_id = 'abc'
         stub_request(:get, "#{Fulcrum::Api.configuration.uri}/records/#{record_id}.json").to_return(:status => 404)
-        expect { Fulcrum::Record.find(record_id) }.to raise_error(/404/)
+        r = Fulcrum::Record.find(record_id)
+        r.keys.should include(:error)
+        r[:error][:status].should eq(404)
       end
     end
 
@@ -88,7 +90,9 @@ describe Fulcrum::Record do
       it 'should receive a 422 response' do
         stub_request(:post, "#{Fulcrum::Api.configuration.uri}/records.json").to_return(:status => 422)
         Fulcrum::RecordValidator.any_instance.stub(:validate!).and_return(true)
-        expect { Fulcrum::Record.create({}) }.to raise_error(/422/)
+        r = Fulcrum::Record.create({})
+        r.keys.should include(:error)
+        r[:error][:status].should eq(422)
       end
     end
 
@@ -97,7 +101,9 @@ describe Fulcrum::Record do
         record_id = 'abc'
         stub_request(:put, "#{Fulcrum::Api.configuration.uri}/records/#{record_id}.json").to_return(:status => 422)
         Fulcrum::RecordValidator.any_instance.stub(:validate!).and_return(true)
-        expect { Fulcrum::Record.update(record_id, {}) }.to raise_error(/422/)
+        r = Fulcrum::Record.update(record_id, {})
+        r.keys.should include(:error)
+        r[:error][:status].should eq(422)
       end
     end
 
@@ -105,7 +111,9 @@ describe Fulcrum::Record do
       it 'should receive a 404 response' do
         record_id = 'abc'
         stub_request(:delete, "#{Fulcrum::Api.configuration.uri}/records/#{record_id}.json").to_return(:status => 404)
-        expect { Fulcrum::Record.delete(record_id) }.to raise_error(/404/)
+        r = Fulcrum::Record.delete(record_id)
+        r.keys.should include(:error)
+        r[:error][:status].should eq(404)
       end
     end
   end

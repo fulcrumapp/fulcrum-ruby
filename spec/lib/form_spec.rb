@@ -80,7 +80,9 @@ describe Fulcrum::Form do
       it 'should receive 404' do
         form_id = 'abc'
         stub_request(:get, "#{Fulcrum::Api.configuration.uri}/forms/#{form_id}.json").to_return(:status => 404)
-        expect { Fulcrum::Form.find(form_id) }.to raise_error(/404/)
+        c = Fulcrum::Form.find(form_id)
+        c.keys.should include(:error)
+        c[:error][:status].should eq(404)
       end
     end
 
@@ -88,7 +90,9 @@ describe Fulcrum::Form do
       it 'should receive a 422 response' do
         stub_request(:post, "#{Fulcrum::Api.configuration.uri}/forms.json").to_return(:status => 422)
         Fulcrum::FormValidator.any_instance.stub(:validate!).and_return(true)
-        expect { Fulcrum::Form.create({}) }.to raise_error(/422/)
+        c = Fulcrum::Form.create({})
+        c.keys.should include(:error)
+        c[:error][:status].should eq(422)
       end
     end
 
@@ -97,7 +101,9 @@ describe Fulcrum::Form do
         form_id = 'abc'
         stub_request(:put, "#{Fulcrum::Api.configuration.uri}/forms/#{form_id}.json").to_return(:status => 422)
         Fulcrum::FormValidator.any_instance.stub(:validate!).and_return(true)
-        expect { Fulcrum::Form.update(form_id, {}) }.to raise_error(/422/)
+        c = Fulcrum::Form.update(form_id, {})
+        c.keys.should include(:error)
+        c[:error][:status].should eq(422)
       end
     end
 
@@ -105,7 +111,9 @@ describe Fulcrum::Form do
       it 'should receive a 404 response' do
         form_id = 'abc'
         stub_request(:delete, "#{Fulcrum::Api.configuration.uri}/forms/#{form_id}.json").to_return(:status => 404)
-        expect { Fulcrum::Form.delete(form_id) }.to raise_error(/404/)
+        c = Fulcrum::Form.delete(form_id)
+        c.keys.should include(:error)
+        c[:error][:status].should eq(404)
       end
     end
   end

@@ -78,8 +78,11 @@ describe Fulcrum::ChoiceList do
     context '#retrieve' do
       it 'should receive 404' do
         cl_id = 'abc'
-        stub_request(:get, "#{Fulcrum::Api.configuration.uri}/choice_lists/#{cl_id}.json").to_return(:status => 404)
-        expect { Fulcrum::ChoiceList.find(cl_id) }.to raise_error(/404/)
+        body = { :a => 'b' }
+        stub_request(:get, "#{Fulcrum::Api.configuration.uri}/choice_lists/#{cl_id}.json").to_return(:status => 404, :body => body)
+        c = Fulcrum::ChoiceList.find(cl_id)
+        c.keys.should include(:error)
+        c[:error][:status].should eq(404)
       end
     end
 
@@ -87,7 +90,9 @@ describe Fulcrum::ChoiceList do
       it 'should receive a 422 response' do
         stub_request(:post, "#{Fulcrum::Api.configuration.uri}/choice_lists.json").to_return(:status => 422)
         Fulcrum::ChoiceListValidator.any_instance.stub(:validate!).and_return(true)
-        expect { Fulcrum::ChoiceList.create({}) }.to raise_error(/422/)
+        c = Fulcrum::ChoiceList.create({})
+        c.keys.should include(:error)
+        c[:error][:status].should eq(422)
       end
     end
 
@@ -96,7 +101,9 @@ describe Fulcrum::ChoiceList do
         cl_id = 'abc'
         stub_request(:put, "#{Fulcrum::Api.configuration.uri}/choice_lists/#{cl_id}.json").to_return(:status => 422)
         Fulcrum::ChoiceListValidator.any_instance.stub(:validate!).and_return(true)
-        expect { Fulcrum::ChoiceList.update(cl_id, {}) }.to raise_error(/422/)
+        c = Fulcrum::ChoiceList.update(cl_id, {})
+        c.keys.should include(:error)
+        c[:error][:status].should eq(422)
       end
     end
 
@@ -104,7 +111,9 @@ describe Fulcrum::ChoiceList do
       it 'should receive a 404 response' do
         cl_id = 'abc'
         stub_request(:delete, "#{Fulcrum::Api.configuration.uri}/choice_lists/#{cl_id}.json").to_return(:status => 404)
-        expect { Fulcrum::ChoiceList.delete(cl_id) }.to raise_error(/404/)
+        c = Fulcrum::ChoiceList.delete(cl_id)
+        c.keys.should include(:error)
+        c[:error][:status].should eq(404)
       end
     end
   end

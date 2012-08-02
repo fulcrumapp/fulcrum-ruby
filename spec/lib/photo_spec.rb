@@ -21,9 +21,9 @@ describe Fulcrum::Photo do
 
     context '#create' do
       it 'should create a new photo and return status 201' do
-        stub_request(:post, "#{Fulcrum::Api.configuration.uri}/photos").to_return(:status => 201)
+        stub_request(:post, "#{Fulcrum::Api.configuration.uri}/photos.json").to_return(:status => 201)
         pic = File.join(File.dirname(__FILE__), '..', 'data', 'test.jpg')
-        Fulcrum::Photo.create(pic, "image/*", "")
+        Fulcrum::Photo.create(pic, 'image/*', 'abc', '')
         Fulcrum::Photo.response.status.should eq(201)
       end
     end
@@ -55,23 +55,29 @@ describe Fulcrum::Photo do
       it 'should receive 404' do
         photo_id = 'abc'
         stub_request(:get, "#{Fulcrum::Api.configuration.uri}/photos/#{photo_id}.jpg").to_return(:status => 404)
-        expect { Fulcrum::Photo.find(photo_id, format: 'jpg') }.to raise_error(/404/)
+        p = Fulcrum::Photo.find(photo_id, format: 'jpg')
+        p.keys.should include(:error)
+        p[:error][:status].should eq(404)
       end
     end
 
     context '#create' do
       it 'should receive a 422 response' do
-        stub_request(:post, "#{Fulcrum::Api.configuration.uri}/photos").to_return(:status => 422)
+        stub_request(:post, "#{Fulcrum::Api.configuration.uri}/photos.json").to_return(:status => 422)
         pic = File.join(File.dirname(__FILE__), '..', 'data', 'test.jpg')
-        expect { Fulcrum::Photo.create(pic, 'image/*', '') }.to raise_error(/422/)
+        p = Fulcrum::Photo.create(pic, 'image/*', 'abc', '')
+        p.keys.should include(:error)
+        p[:error][:status].should eq(422)
       end
     end
 
     context '#thumbnail' do
       it 'should receive a 422 response' do
         photo_id = 'abc'
-        stub_request(:get, "#{Fulcrum::Api.configuration.uri}/photos/#{photo_id}/thumbnail.jpg").to_return(:status => 422)
-        expect { Fulcrum::Photo.thumbnail(photo_id) }.to raise_error(/422/)
+        stub_request(:get, "#{Fulcrum::Api.configuration.uri}/photos/#{photo_id}/thumbnail.jpg").to_return(:status => 404)
+        p = Fulcrum::Photo.thumbnail(photo_id)
+        p.keys.should include(:error)
+        p[:error][:status].should eq(404)
       end
     end
 
@@ -79,7 +85,9 @@ describe Fulcrum::Photo do
       it 'should receive a 404 response' do
         photo_id = 'abc'
         stub_request(:delete, "#{Fulcrum::Api.configuration.uri}/photos/#{photo_id}.json").to_return(:status => 404)
-        expect { Fulcrum::Photo.delete(photo_id) }.to raise_error(/404/)
+        p = Fulcrum::Photo.delete(photo_id)
+        p.keys.should include(:error)
+        p[:error][:status].should eq(404)
       end
     end
   end
