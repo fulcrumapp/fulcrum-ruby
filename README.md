@@ -110,6 +110,10 @@ Or install it yourself as:
 
     Fulcrum::Member.find(id)
 
+## Extra Reading
+
+  [Fulcrum API docs](http://developer.fulcrumapp.com/api/fulcrum-api.html)
+
 ## Contributing
 
 1. Fork it
