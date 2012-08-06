@@ -68,8 +68,7 @@ Or install it yourself as:
     Fulcrum::Photo.thumbnail(access_key, opts)
     # opts = { 'format' => 'json|image' }
 
-    Fulcrum::Photo.create(photo)
-    # photo = { 'photo' => {  'access_key' => unique_key, 'file' => file } }
+    Fulcrum::Photo.create(photo, content_type, unique_id, label)
 
     Fulcrum::Photo.delete(access_key)
 
