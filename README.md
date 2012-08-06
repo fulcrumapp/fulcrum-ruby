@@ -73,6 +73,44 @@ Or install it yourself as:
 
     Fulcrum::Photo.delete(access_key)
 
+
+## Choice Lists
+
+    Fulcrum::ChoiceList.all(opts)
+    # opts = { 'page' => page_number }
+
+    Fulcrum::ChoiceList.find(id)
+
+    Fulcrum::ChoiceList.create(choice_list)
+    # choice_list = { 'choice_list' => { ... } }
+
+    Fulcrum::ChoiceList.update(id, choice_list)
+    # choice_list = { 'choice_list' => { ... } }
+
+    Fulcrum::ChoiceList.delete(id)
+
+## Classification Sets
+
+    Fulcrum::ClassificationSet.all(opts)
+    # opts = { 'page' => page_number }
+
+    Fulcrum::ClassificationSet.find(id)
+
+    Fulcrum::ClassificationSet.create(classification_set)
+    # classification_set = { 'classification_set' => { ... } }
+
+    Fulcrum::ClassificationSet.update(id, classification_set)
+    # classification_set = { 'classification_set' => { ... } }
+
+    Fulcrum::ClassificationSet.delete(id)
+
+## Members
+
+    Fulcrum::Member.all(opts)
+    # opts = { 'page' => page_number }
+
+    Fulcrum::Member.find(id)
+
 ## Contributing
 
 1. Fork it
