@@ -1,20 +1,18 @@
 module Fulcrum
   class Photo < Api
 
-    ALLOWED_FORMATS = %w(json jpg)
-    ALLOWED_IMAGE_TYPES = %(png jpg)
+    ALLOWED_FORMATS = %w(json image)
 
     class << self
 
       def find(id, opts = {})
-        opts = opts.with_indifferent_access
-        format = opts.delete(:format) || 'jpg'
-        raise ArgumentError, "#{format} is not an allowed format, use either 'json' or 'jpg'" unless ALLOWED_FORMATS.include?(format)
+        format = image_opts(opts)
         call(:get, "photos/#{id}.#{format}")
       end
 
-      def thumbnail(id)
-        call(:get, "photos/#{id}/thumbnail.jpg")
+      def thumbnail(id, opts = {})
+        format = image_opts(opts)
+        call(:get, "photos/#{id}/thumbnail.#{format}")
       end
 
       def create(file, content_type, id, label = '')
@@ -24,6 +22,14 @@ module Fulcrum
 
       def delete(id)
         call(:delete, "photos/#{id}.json")
+      end
+
+      def image_opts(opts = {})
+        opts = opts.with_indifferent_access
+        format = opts.delete(:format) || 'json'
+        raise ArgumentError, "#{format} is not an allowed format, use either 'json' or 'image'" unless ALLOWED_FORMATS.include?(format)
+        format = "jpg" if format == 'image'
+        format
       end
     end
   end
