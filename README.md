@@ -2,6 +2,10 @@
 
 Fulcrum API Gem
 
+## Requirements
+
+ruby 1.9.x
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -16,15 +20,58 @@ Or install it yourself as:
 
     $ gem install fulcrum
 
-## Usage
+## Configuration
 
     Fulcrum::Api.configure do |config|
       config.uri = 'http://web.fulcrumapp.com/api/v2'
       config.key = 'your_api_key'
     end
 
-    forms = Fulcrum::Form.all
-    form = Fulcrum::Form.find(id)
+## Forms
+
+    Fulcrum::Form.all(opts)
+    # opts = { 'page' => page_number, 'schema' => true_or_false }
+
+    Fulcrum::Form.find(id, opts)
+    # opts = { 'include_foreign_elements' => true_or_false }
+
+    Fulcrum::Form.create(form)
+    # form = { 'form' => { ... } }
+
+    Fulcrum::Form.update(id, form)
+    # form = { 'form' => { ... } }
+
+    Fulcrum::Form.delete(id)
+
+## Records
+
+    Fulcrum::Record.all(opts)
+    # opts = { 'page' => page_number,
+    #          'form_id' => form_id,
+    #          'bounding_box' => 'lat_bottom,lng_left,lat_top,lng_right',
+    #          'updated_since' => date_since_epoch_in_seconds }
+
+    Fulcrum::Record.find(id)
+    Fulcrum::Record.create(record)
+    # record = { 'record' => { ... } }
+
+    Fulcrum::Record.update(id, record)
+    # record = { 'record' => { ... } }
+
+    Fulcrum::Record.delete(id)
+
+## Photos
+
+    Fulcrum::Photo.find(access_key, opts)
+    # opts = { 'format' => 'json|image' }
+
+    Fulcrum::Photo.thumbnail(access_key, opts)
+    # opts = { 'format' => 'json|image' }
+
+    Fulcrum::Photo.create(photo)
+    # photo = { 'photo' => {  'access_key' => unique_key, 'file' => file } }
+
+    Fulcrum::Photo.delete(access_key)
 
 ## Contributing
 
