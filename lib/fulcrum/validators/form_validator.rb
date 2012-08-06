@@ -46,8 +46,14 @@ module Fulcrum
       if element.blank?
         add_error('elements', 'element', 'must not be empty')
       else
+        if !element[:key]
+          add_error('element', 'key', 'must exist and not be nil')
+          return false
+        end
+
         if @items.include?(element[:key])
           add_error(element[:key], :key, 'must be unique')
+          return false
         end
 
         key = element[:key]
