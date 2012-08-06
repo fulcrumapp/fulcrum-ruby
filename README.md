@@ -72,7 +72,6 @@ Or install it yourself as:
 
     Fulcrum::Photo.delete(access_key)
 
-
 ## Choice Lists
 
     Fulcrum::ChoiceList.all(opts)
