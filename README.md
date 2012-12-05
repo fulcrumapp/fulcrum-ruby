@@ -28,10 +28,17 @@ Or install it yourself as:
       config.key = 'your_api_key'
     end
 
+## Projects
+
+    Fulcrum::Project.all(opts)
+    # opts = { 'page' => page_number,
+    #          'updated_since' => date_time }
+
 ## Forms
 
     Fulcrum::Form.all(opts)
-    # opts = { 'page' => page_number, 'schema' => true_or_false }
+    # opts = { 'page' => page_number,
+    #          'schema' => true_or_false }
 
     Fulcrum::Form.find(id, opts)
     # opts = { 'include_foreign_elements' => true_or_false }
@@ -64,10 +71,10 @@ Or install it yourself as:
 ## Photos
 
     Fulcrum::Photo.find(access_key, opts)
-    # opts = { 'format' => 'json|image' }
+    # opts = { 'format' => 'json|jpg' }, defaults to 'json'
 
     Fulcrum::Photo.thumbnail(access_key, opts)
-    # opts = { 'format' => 'json|image' }
+    # opts = { 'format' => 'json|jpg' }, defaults to 'json'
 
     Fulcrum::Photo.create(photo, content_type, unique_id, label)
 
