@@ -32,7 +32,7 @@ describe Fulcrum::Photo do
       it 'should retrieve the photo thumbnail and return status 200' do
         photo_id = 'abc'
         stub_request(:get, "#{Fulcrum::Api.configuration.uri}/photos/#{photo_id}/thumbnail.jpg").to_return(:status => 200)
-        r = Fulcrum::Photo.thumbnail(photo_id)
+        r = Fulcrum::Photo.thumbnail(photo_id, format: 'jpg')
         Fulcrum::Photo.response.status.should eq(200)
       end
     end
@@ -75,7 +75,7 @@ describe Fulcrum::Photo do
       it 'should receive a 422 response' do
         photo_id = 'abc'
         stub_request(:get, "#{Fulcrum::Api.configuration.uri}/photos/#{photo_id}/thumbnail.jpg").to_return(:status => 404)
-        p = Fulcrum::Photo.thumbnail(photo_id)
+        p = Fulcrum::Photo.thumbnail(photo_id, format: 'jpg')
         p.keys.should include(:error)
         p[:error][:status].should eq(404)
       end
