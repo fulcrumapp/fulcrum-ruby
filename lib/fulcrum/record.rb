@@ -4,7 +4,7 @@ module Fulcrum
     class << self
 
       def all(opts = {})
-        params = parse_opts([:page, :form_id, :bounding_box, :updated_since], opts)
+        params = parse_opts([:page, :form_id, :project_id, :bounding_box, :updated_since], opts)
         call(:get, 'records.json', params)
       end
 
