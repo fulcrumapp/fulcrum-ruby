@@ -1,7 +1,7 @@
 module Fulcrum
   class Photo < Api
 
-    ALLOWED_FORMATS = %w(json image)
+    ALLOWED_FORMATS = %w(jpg json)
 
     class << self
 
@@ -27,8 +27,7 @@ module Fulcrum
       def image_opts(opts = {})
         opts = opts.with_indifferent_access
         format = opts.delete(:format) || 'json'
-        raise ArgumentError, "#{format} is not an allowed format, use either 'json' or 'image'" unless ALLOWED_FORMATS.include?(format)
-        format = "jpg" if format == 'image'
+        raise ArgumentError, "#{format} is not an allowed format, use either 'json' or 'jpg'" unless ALLOWED_FORMATS.include?(format)
         format
       end
     end
