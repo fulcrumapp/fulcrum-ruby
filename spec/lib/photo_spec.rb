@@ -84,10 +84,11 @@ describe Fulcrum::Photo do
     context '#delete' do
       it 'should receive a 404 response' do
         photo_id = 'abc'
-        stub_request(:delete, "#{Fulcrum::Api.configuration.uri}/photos/#{photo_id}.json").to_return(:status => 404)
+        stub_request(:delete, "#{Fulcrum::Api.configuration.uri}/photos/#{photo_id}.json").to_return(:status => 404, :body => { :message => "error message"})
         p = Fulcrum::Photo.delete(photo_id)
         p.keys.should include(:error)
         p[:error][:status].should eq(404)
+        p[:error][:message].should eq({ :message => "error message" })
       end
     end
   end

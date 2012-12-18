@@ -110,10 +110,11 @@ describe Fulcrum::Form do
     context '#delete' do
       it 'should receive a 404 response' do
         form_id = 'abc'
-        stub_request(:delete, "#{Fulcrum::Api.configuration.uri}/forms/#{form_id}.json").to_return(:status => 404)
+        stub_request(:delete, "#{Fulcrum::Api.configuration.uri}/forms/#{form_id}.json").to_return(:status => 404, :body => { :message => "error message"})
         c = Fulcrum::Form.delete(form_id)
         c.keys.should include(:error)
         c[:error][:status].should eq(404)
+        c[:error][:message].should eq({ :message => "error message" })
       end
     end
   end

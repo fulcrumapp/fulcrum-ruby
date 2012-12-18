@@ -110,10 +110,11 @@ describe Fulcrum::Record do
     context '#delete' do
       it 'should receive a 404 response' do
         record_id = 'abc'
-        stub_request(:delete, "#{Fulcrum::Api.configuration.uri}/records/#{record_id}.json").to_return(:status => 404)
+        stub_request(:delete, "#{Fulcrum::Api.configuration.uri}/records/#{record_id}.json").to_return(:status => 404, :body => { :message => "error message"})
         r = Fulcrum::Record.delete(record_id)
         r.keys.should include(:error)
         r[:error][:status].should eq(404)
+        r[:error][:message].should eq({ :message => "error message" })
       end
     end
   end

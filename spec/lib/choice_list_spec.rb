@@ -110,10 +110,11 @@ describe Fulcrum::ChoiceList do
     context '#delete' do
       it 'should receive a 404 response' do
         cl_id = 'abc'
-        stub_request(:delete, "#{Fulcrum::Api.configuration.uri}/choice_lists/#{cl_id}.json").to_return(:status => 404)
+        stub_request(:delete, "#{Fulcrum::Api.configuration.uri}/choice_lists/#{cl_id}.json").to_return(:status => 404, :body => { :message => "error message"})
         c = Fulcrum::ChoiceList.delete(cl_id)
         c.keys.should include(:error)
         c[:error][:status].should eq(404)
+        c[:error][:message].should eq({ :message => "error message" })
       end
     end
   end
