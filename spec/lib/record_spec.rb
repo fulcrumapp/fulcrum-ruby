@@ -65,9 +65,9 @@ describe Fulcrum::Record do
     context '#delete' do
       it 'should delete the record and return status 200' do
         record_id = 'abc'
-        stub_request(:delete, "#{Fulcrum::Api.configuration.uri}/records/#{record_id}.json").to_return(:status => 200, :body => '{"record":{}}')
+        stub_request(:delete, "#{Fulcrum::Api.configuration.uri}/records/#{record_id}.json").to_return(:status => 204, :body => '{"record":{}}')
         r = Fulcrum::Record.delete(record_id)
-        Fulcrum::Record.response.status.should eq(200)
+        Fulcrum::Record.response.status.should eq(204)
         r = JSON.parse(r)
         r.keys.should include('record')
         r['record'].should be_a(Hash)

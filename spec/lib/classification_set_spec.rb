@@ -64,9 +64,9 @@ describe Fulcrum::ClassificationSet do
     context '#delete' do
       it 'should return deleted classification_set with status 200' do
         cs_id = 'abc'
-        stub_request(:delete, "#{Fulcrum::Api.configuration.uri}/classification_sets/#{cs_id}.json").to_return(:status => 200, :body => '{"classification_set":{}}')
+        stub_request(:delete, "#{Fulcrum::Api.configuration.uri}/classification_sets/#{cs_id}.json").to_return(:status => 204, :body => '{"classification_set":{}}')
         c = Fulcrum::ClassificationSet.delete(cs_id)
-        Fulcrum::ClassificationSet.response.status.should eq(200)
+        Fulcrum::ClassificationSet.response.status.should eq(204)
         c = JSON.parse(c)
         c.keys.should include('classification_set')
         c['classification_set'].should be_a(Hash)

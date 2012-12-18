@@ -64,9 +64,9 @@ describe Fulcrum::ChoiceList do
     context '#delete' do
       it 'should return deleted choice_list with status 200' do
         cl_id = 'abc'
-        stub_request(:delete, "#{Fulcrum::Api.configuration.uri}/choice_lists/#{cl_id}.json").to_return(:status => 200, :body => '{"choice_list":{}}')
+        stub_request(:delete, "#{Fulcrum::Api.configuration.uri}/choice_lists/#{cl_id}.json").to_return(:status => 204, :body => '{"choice_list":{}}')
         c = Fulcrum::ChoiceList.delete(cl_id)
-        Fulcrum::ChoiceList.response.status.should eq(200)
+        Fulcrum::ChoiceList.response.status.should eq(204)
         c = JSON.parse(c)
         c.keys.should include('choice_list')
         c['choice_list'].should be_a(Hash)

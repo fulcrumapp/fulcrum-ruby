@@ -65,9 +65,9 @@ describe Fulcrum::Form do
     context '#delete' do
       it 'should return deleted form with status 200' do
         form_id = 'abc'
-        stub_request(:delete, "#{Fulcrum::Api.configuration.uri}/forms/#{form_id}.json").to_return(:status => 200, :body => '{"form":{}}')
+        stub_request(:delete, "#{Fulcrum::Api.configuration.uri}/forms/#{form_id}.json").to_return(:status => 204, :body => '{"form":{}}')
         f = Fulcrum::Form.delete(form_id)
-        Fulcrum::Form.response.status.should eq(200)
+        Fulcrum::Form.response.status.should eq(204)
         f = JSON.parse(f)
         f.keys.should include('form')
         f['form'].should be_a(Hash)

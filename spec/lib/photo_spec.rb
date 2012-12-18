@@ -40,9 +40,9 @@ describe Fulcrum::Photo do
     context '#delete' do
       it 'should delete the photo and return status 200' do
         photo_id = 'abc'
-        stub_request(:delete, "#{Fulcrum::Api.configuration.uri}/photos/#{photo_id}.json").to_return(:status => 200, :body => '{"photo":{}}')
+        stub_request(:delete, "#{Fulcrum::Api.configuration.uri}/photos/#{photo_id}.json").to_return(:status => 204, :body => '{"photo":{}}')
         r = Fulcrum::Photo.delete(photo_id)
-        Fulcrum::Photo.response.status.should eq(200)
+        Fulcrum::Photo.response.status.should eq(204)
         r = JSON.parse(r)
         r.keys.should include('photo')
         r['photo'].should be_a(Hash)
