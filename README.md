@@ -36,20 +36,22 @@ Or install it yourself as:
 
 ## Forms
 
-    Fulcrum::Form.all(opts)
-    # opts = { 'page' => page_number,
-    #          'schema' => true_or_false }
+```ruby
+Fulcrum::Form.all(opts)
+# opts = { 'page' => page_number,
+#          'schema' => true_or_false }
 
-    Fulcrum::Form.find(id, opts)
-    # opts = { 'include_foreign_elements' => true_or_false }
+Fulcrum::Form.find(id, opts)
+# opts = { 'include_foreign_elements' => true_or_false }
 
-    Fulcrum::Form.create(form)
-    # form = { 'form' => { ... } }
+Fulcrum::Form.create(form)
+# form = { 'form' => { ... } }
 
-    Fulcrum::Form.update(id, form)
-    # form = { 'form' => { ... } }
+Fulcrum::Form.update(id, form)
+# form = { 'form' => { ... } }
 
-    Fulcrum::Form.delete(id)
+Fulcrum::Form.delete(id)
+```
 
 ## Records
 
