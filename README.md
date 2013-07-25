@@ -27,7 +27,7 @@ Or install it yourself as:
 
 ```ruby
 Fulcrum::Api.configure do |config|
-  config.uri = 'http://web.fulcrumapp.com/api/v2'
+  config.uri = 'https://api.fulcrumapp.com/api/v2'
   config.key = 'your_api_key'
 end
 ```
