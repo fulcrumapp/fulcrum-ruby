@@ -1,18 +1,23 @@
 require 'spec_helper'
 
 describe Fulcrum::Api do
-  before(:all) do
-    @uri = 'http://foo.bar/api/v2'
-    @key = 'foobar'
-    Fulcrum::Api.configure do |config|
-      config.uri = 'http://foo.bar/api/v2'
-      config.key = 'foobar'
-    end
+  let(:default_uri) { 'https://api.fulcrumapp.com/api/v2' }
+
+  let(:uri) { 'http://foo.bar/api/v2' }
+  let(:key) { 'foobar' }
+
+  it 'has a default uri' do
+    Fulcrum::Api.configuration.uri.should eq(default_uri)
   end
 
   it 'is configured' do
-    Fulcrum::Api.configuration.uri.should eq(@uri)
-    Fulcrum::Api.configuration.key.should eq(@key)
+    Fulcrum::Api.configure do |config|
+      config.uri = uri
+      config.key = key
+    end
+
+    Fulcrum::Api.configuration.uri.should eq(uri)
+    Fulcrum::Api.configuration.key.should eq(key)
   end
 
   it 'gets the key' do
