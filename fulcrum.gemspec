@@ -2,10 +2,10 @@
 require File.expand_path('../lib/fulcrum/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.authors       = ["Chris Hall"]
-  gem.email         = ["chris@spatialnetworks.com"]
-  gem.description   = %q{Fulcrum API Gem}
-  gem.summary       = %q{Fulcrum API Gem}
+  gem.authors       = ["Spatial Networks"]
+  gem.email         = ["sniadmin@spatialnetworks.com"]
+  gem.description   = %q{Fulcrum API}
+  gem.summary       = %q{Fulcrum API}
   gem.homepage      = "http://github.com/spatialnetworks/fulcrum-ruby"
 
   gem.files         = `git ls-files`.split($\)
@@ -21,7 +21,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'debugger'
 
   gem.add_dependency 'activesupport'
-  gem.add_dependency 'faraday'
+  gem.add_dependency 'faraday', '~> 0.8.8'
   gem.add_dependency 'hashie'
   gem.add_dependency 'faraday_middleware'
 end
