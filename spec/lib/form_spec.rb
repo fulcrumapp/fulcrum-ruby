@@ -12,16 +12,12 @@ describe Fulcrum::Form do
   describe 'successful requests' do
     context '#all' do
       it 'should retrieve all records' do
-        stub_request(:get, "#{Fulcrum::Api.configuration.uri}/forms.json").to_return(:status => 200, :body => '{"current_page":1,"total_pages":1,"total_count":1,"per_page":50,"forms":[]}')
+        records = {"current_page" => 1,"total_pages" => 1,"total_count" => 1,"per_page" => 50,"forms" => []}
+        stub_request(:get, "#{Fulcrum::Api.configuration.uri}/forms.json").to_return(:status => 200, :body => records.to_json)
         forms = Fulcrum::Form.all
         Fulcrum::Form.response.status.should eq(200)
         forms = JSON.parse(forms)
-        forms.keys.should include('current_page')
-        forms.keys.should include('total_pages')
-        forms.keys.should include('total_count')
-        forms.keys.should include('per_page')
-        forms.keys.should include('forms')
-        forms['forms'].should be_a(Array)
+        forms.should == records
       end
     end
 

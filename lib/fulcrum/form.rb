@@ -1,6 +1,5 @@
 module Fulcrum
   class Form < Api
-
     class << self
 
       def all(opts = {})

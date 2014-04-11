@@ -90,6 +90,10 @@ module Fulcrum
     class Configuration
       attr_accessor :uri
       attr_accessor :key
+
+      def initialize
+        self.uri = 'https://api.fulcrumapp.com/api/v2'
+      end
     end
   end
 end
