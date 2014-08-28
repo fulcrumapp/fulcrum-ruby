@@ -36,11 +36,11 @@ client = Fulcrum::Client.new(your_api_key)
 
 ## Basics
 
-In general, this API is intended to be a low level wrapper around the Fulcrum API. All of the filtering and query parmeters are passed directly through to the HTTP request, so it's best to read the [API documentation](http://fulcrumapp.com/developers/api/) to get a sense of the parameters available for each resource. Resource instances are returned from the API as simple hashes.
+In general, this API is intended to be a low level wrapper around the Fulcrum API. All of the filtering and query parameters are passed directly through to the HTTP request. It's best to read the [API documentation](http://fulcrumapp.com/developers/api/) to get a sense of the parameters available for each resource. Resource instances are returned from the API as simple hashes.
 
 When using the `create` or `update` methods on resources, the object passed to the method should be in the same format as a result from calling `find` on that resource. For example, you can call `client.records.find(id)` and the result can be used as the parameter for `client.records.update(id, record)`.
 
-Each of the API resources has an `all` method that can be used to fetch a list of resources. The `all` methods accept some basic pagination parameters (`per_page` and `page`) you can use to iterate all of the items. Because the index API's are paginated, the result of `all` is not the objects themselves. The `all` methods return a `Page` object that has some basic attributes to inspect the pagination extents and an `objects` attribute to give you the actual array of objects. Below is a simple example that fetches the first page of records from the API.
+Each of the API resources has an `all` method that can be used to fetch a list of resources. The `all` methods accept some basic pagination parameters (`per_page` and `page`) you can use to iterate over the pages. Because the index API's are paginated, the result of `all` is not the objects themselves. The `all` methods return a `Page` object that has some basic attributes to inspect the pagination extents. The `objects` attribute returns the actual array of objects. Below is a simple example that fetches the first page of records from the API.
 ```ruby
 
 client = Fulcrum::Client.new(your_api_key)
@@ -72,9 +72,15 @@ Find a single record by its `id` and return a `Hash` of the record attributes.
 
 ### client.records.create(record)
 
+Create a new record from a `Hash` of attributes. The format of the attributes is identical to the format returned from `find`. The [record API documentation](http://fulcrumapp.com/developers/api/records) has more information on the format. **Note:** although the raw API uses a hash wrapped in a `record` attribute, this is not necessary for the ruby API. Instead of `{ "record" => record_attributes }`, you simply pass `record_attributes` directly to this method.
+
 ### client.records.update(id, record)
 
+Update an existing record by its `id` using a `Hash` of attributes. The format of the attributes is identical to the format returned from `find`. The [record API documentation](http://fulcrumapp.com/developers/api/records) has more information on the format. **Note:** although the raw API uses a hash wrapped in a `record` attribute, this is not necessary for the ruby API. Instead of `{ "record" => record_attributes }`, you simply pass `record_attributes` directly to this method.
+
 ### client.records.delete(id)
+
+Delete a record by its `id`.
 
 
 
