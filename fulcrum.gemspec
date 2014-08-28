@@ -5,7 +5,7 @@ Gem::Specification.new do |gem|
   gem.authors       = ["Spatial Networks"]
   gem.email         = ["sniadmin@spatialnetworks.com"]
   gem.description   = %q{Fulcrum API}
-  gem.summary       = %q{Fulcrum API}
+  gem.summary       = %q{Fulcrum API client for ruby}
   gem.homepage      = "http://github.com/spatialnetworks/fulcrum-ruby"
 
   gem.files         = `git ls-files`.split($\)
@@ -21,7 +21,6 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'debugger'
 
   gem.add_dependency 'activesupport'
-  gem.add_dependency 'faraday', '~> 0.8.8'
-  gem.add_dependency 'hashie'
+  gem.add_dependency 'faraday', '~> 0.9.0'
   gem.add_dependency 'faraday_middleware'
 end

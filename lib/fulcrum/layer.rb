@@ -1,4 +1,4 @@
 module Fulcrum
-  class Form < Resource
+  class Layer < Resource
   end
 end

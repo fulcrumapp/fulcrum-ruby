@@ -1,7 +1,7 @@
 module Fulcrum
-  class Photo < MediaResource
+  class Signature < MediaResource
     def default_content_type
-      'image/jpeg'
+      'image/png'
     end
 
     def large(id, &blk)

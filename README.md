@@ -5,7 +5,7 @@ Fulcrum API Gem
 ## Requirements
 
 * Ruby 1.9
-* [Fulcrum user account](https://web.fulcrumapp.com)
+* [Fulcrum account](https://web.fulcrumapp.com)
 
 ## Installation
 
@@ -23,117 +23,207 @@ Or install it yourself as:
 
     gem install fulcrum
 
-## Configuration
+## Using the gem
+
+## Client
+
+All interaction with the API is done through a client object. Below is a simple example of how to instantiate a client object.
 
 ```ruby
-Fulcrum::Api.configure do |config|
-  config.uri = 'https://api.fulcrumapp.com/api/v2'
-  config.key = 'your_api_key'
-end
+client = Fulcrum::Client.new(your_api_key)
 ```
 
-## Projects
 
+## Basics
+
+In general, this API is intended to be a low level wrapper around the Fulcrum API. All of the filtering and query parmeters are passed directly through to the HTTP request, so it's best to read the [API documentation](http://fulcrumapp.com/developers/api/) to get a sense of the parameters available for each resource. Resource instances are returned from the API as simple hashes.
+
+When using the `create` or `update` methods on resources, the object passed to the method should be in the same format as a result from calling `find` on that resource. For example, you can call `client.records.find(id)` and the result can be used as the parameter for `client.records.update(id, record)`.
+
+Each of the API resources has an `all` method that can be used to fetch a list of resources. The `all` methods accept some basic pagination parameters (`per_page` and `page`) you can use to iterate all of the items. Because the index API's are paginated, the result of `all` is not the objects themselves. The `all` methods return a `Page` object that has some basic attributes to inspect the pagination extents and an `objects` attribute to give you the actual array of objects. Below is a simple example that fetches the first page of records from the API.
 ```ruby
-Fulcrum::Project.all(opts)
-# opts = { 'page' => page_number,
-#          'updated_since' => date_time }
-```
 
-## Forms
+client = Fulcrum::Client.new(your_api_key)
 
-```ruby
-Fulcrum::Form.all(opts)
-# opts = { 'page' => page_number,
-#          'schema' => true_or_false }
+result = client.records.all(form_id: my_form_id, page: 1, per_page: 100)
 
-Fulcrum::Form.find(id, opts)
-# opts = { 'include_foreign_elements' => true_or_false }
-
-Fulcrum::Form.create(form)
-# form = { 'form' => { ... } }
-
-Fulcrum::Form.update(id, form)
-# form = { 'form' => { ... } }
-
-Fulcrum::Form.delete(id)
+puts result.class         # Fulcrum::Page
+puts result.per_page      # => 100
+puts result.current_page  # => 1
+puts result.total_pages   # => 2
+puts result.total_count   # => 137
+puts result.objects.count # => 100
+puts result.objects       # [ ... the records ... ]
 ```
 
 ## Records
 
-```ruby
-Fulcrum::Record.all(opts)
-# opts = { 'page' => page_number,
-#          'form_id' => form_id,
-#          'bounding_box' => 'lat_bottom,lng_left,lat_top,lng_right',
-#          'updated_since' => date_since_epoch_in_seconds }
+### client.records.all(params = {})
 
-Fulcrum::Record.find(id)
-Fulcrum::Record.create(record)
-# record = { 'record' => { ... } }
-
-Fulcrum::Record.update(id, record)
-# record = { 'record' => { ... } }
-
-Fulcrum::Record.delete(id)
-```
-
-## Photos
+Retrieve records with optional parameters. For a full list of the available parameters, see the [API documentation](http://fulcrumapp.com/developers/api/records/).
 
 ```ruby
-Fulcrum::Photo.find(access_key, opts)
-# opts = { 'format' => 'json|jpg' }, defaults to 'json'
-
-Fulcrum::Photo.thumbnail(access_key, opts)
-# opts = { 'format' => 'json|jpg' }, defaults to 'json'
-
-Fulcrum::Photo.create(photo, content_type, unique_id, label)
-
-Fulcrum::Photo.delete(access_key)
+client.records.all(page: 1, per_page: 100, form_id: some_form_id, updated_since: timestamp)
 ```
+
+### client.records.find(id)
+
+Find a single record by its `id` and return a `Hash` of the record attributes.
+
+### client.records.create(record)
+
+### client.records.update(id, record)
+
+### client.records.delete(id)
+
+
+
+## Forms
+
+### client.forms.all(params = {})
+
+### client.forms.find(id)
+
+### client.forms.create(form)
+
+### client.forms.update(id, form)
+
+### client.forms.delete(id)
+
+
 
 ## Choice Lists
 
-```ruby
-Fulcrum::ChoiceList.all(opts)
-# opts = { 'page' => page_number }
+### client.choice_lists.all(params = {})
 
-Fulcrum::ChoiceList.find(id)
+### client.choice_lists.find(id)
 
-Fulcrum::ChoiceList.create(choice_list)
-# choice_list = { 'choice_list' => { ... } }
+### client.choice_lists.create(choice_list)
 
-Fulcrum::ChoiceList.update(id, choice_list)
-# choice_list = { 'choice_list' => { ... } }
+### client.choice_lists.update(id, choice_list)
 
-Fulcrum::ChoiceList.delete(id)
-```
+### client.choice_lists.delete(id)
+
+
 
 ## Classification Sets
 
+### client.classification_sets.all(params = {})
+
+### client.classification_sets.find(id)
+
+### client.classification_sets.create(classification_set)
+
+### client.classification_sets.update(id, classification_set)
+
+### client.classification_sets.delete(id)
+
+
+
+## Projects
+
+### client.projects.all(params = {})
+
+### client.projects.find(id)
+
+
+
+## Layers
+
+### client.layers.all(params = {})
+
+### client.layers.find(id)
+
+
+
+## Photos
+
+### client.photos.all(params = {})
+
+### client.photos.find(id)
+
+### client.photos.create(file_or_path, id = new_id, content_type = 'image/jpeg')
+
+### client.photos.delete(id)
+
+### client.photos.original(id) {|io| block }
+
+Downloads the original version and yields an IO object to the block. The block is passed an IO object that you can call `#read` on. For example, to download a photo to a file:
+
 ```ruby
-Fulcrum::ClassificationSet.all(opts)
-# opts = { 'page' => page_number }
-
-Fulcrum::ClassificationSet.find(id)
-
-Fulcrum::ClassificationSet.create(classification_set)
-# classification_set = { 'classification_set' => { ... } }
-
-Fulcrum::ClassificationSet.update(id, classification_set)
-# classification_set = { 'classification_set' => { ... } }
-
-Fulcrum::ClassificationSet.delete(id)
+client.photos.original(id) do |input|
+  File.open('output.jpg', 'wb') do |output|
+    output.write(input.read)
+  end
+end
 ```
 
-## Members
+### client.photos.thumbnail(id) {|io| block }
 
-```ruby
-Fulcrum::Member.all(opts)
-# opts = { 'page' => page_number }
+Downloads the thumbnail version and yields an IO object to the block.
 
-Fulcrum::Member.find(id)
-```
+### client.photos.large(id) {|io| block }
+
+Downloads the large version and yields an IO object to the block.
+
+
+
+## Signatures
+
+### client.signatures.all(params = {})
+
+### client.signatures.find(id)
+
+### client.signatures.create(file_or_path, id = new_id, content_type = 'image/png')
+
+### client.signatures.delete(id)
+
+### client.signatures.original(id) {|io| block }
+
+Downloads the original version and yields an IO object to the block.
+
+### client.signatures.thumbnail(id) {|io| block }
+
+Downloads the thumbnail version and yields an IO object to the block.
+
+### client.signatures.large(id) {|io| block }
+
+Downloads the large version and yields an IO object to the block.
+
+
+
+## Videos
+
+### client.videos.all(params = {})
+
+### client.videos.find(id)
+
+### client.videos.create(file_or_path, id = new_id, content_type = 'video/mp4')
+
+### client.videos.delete(id)
+
+### client.videos.original(id) {|io| block }
+
+Downloads the original version and yields an IO object to the block.
+
+### client.videos.small(id) {|io| block }
+
+Downloads the small version and yields an IO object to the block.
+
+### client.videos.medium(id) {|io| block }
+
+Downloads the medium version and yields an IO object to the block.
+
+### client.videos.track(id)
+
+Fetches the GPS track for the specified video.
+
+
+
+## Memberships
+
+### client.memberships.all(params = {})
+
 
 ## Extra Reading
 
