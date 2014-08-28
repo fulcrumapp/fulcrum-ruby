@@ -42,7 +42,7 @@ module Support
         end
 
         let(:collection_url) do
-          "#{client.url}/#{resource.collection}"
+          "#{client.url}/#{resource.collection}?per_page=#{Fulcrum::Resource::DEFAULT_PER_PAGE}"
         end
 
         let(:create_url) do

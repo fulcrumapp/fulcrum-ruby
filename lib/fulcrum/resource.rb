@@ -36,7 +36,7 @@ module Fulcrum
       collection
     end
 
-    def default_index_options
+    def default_index_params
       { per_page: DEFAULT_PER_PAGE }
     end
 
@@ -46,7 +46,7 @@ module Fulcrum
       attributes
     end
 
-    def all(params = {}, opts = default_index_options)
+    def all(params = default_index_params)
       result = call(:get, collection, params)
 
       Page.new(result, resources_name)
