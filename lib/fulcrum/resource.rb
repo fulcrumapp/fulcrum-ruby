@@ -47,7 +47,7 @@ module Fulcrum
     end
 
     def all(params = default_index_params)
-      result = call(:get, collection, params)
+      result = call(:get, collection, default_index_params.merge(params))
 
       Page.new(result, resources_name)
     end
