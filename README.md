@@ -150,7 +150,7 @@ Delete a record by its `id`.
 
 ### client.photos.create(file_or_path, content_type = 'image/jpeg', attributes = {})
 
-Create a new photo from a file or a file path. `attributes` currently only accepts 1 attribute, `access_key`.
+Create a new photo from a file or a file path. `attributes` must be a `Hash` and currently only accepts 1 attribute, `access_key`.
 If you specify an `access_key`, it must be a UUID. If you don't specify an `access_key`, one will be automatically generated and returned in the response.
 
 ### client.photos.delete(id)
@@ -185,7 +185,7 @@ Downloads the large version and yields an IO object to the block.
 
 ### client.signatures.create(file_or_path, content_type = 'image/png', attributes = {})
 
-Create a new signature from a file or a file path. `attributes` currently only accepts 1 attribute, `access_key`.
+Create a new signature from a file or a file path. `attributes` must be a `Hash` and currently only accepts 1 attribute, `access_key`.
 If you specify an `access_key`, it must be a UUID. If you don't specify an `access_key`, one will be automatically generated and returned in the response.
 
 ### client.signatures.delete(id)
@@ -212,7 +212,7 @@ Downloads the large version and yields an IO object to the block.
 
 ### client.videos.create(file_or_path, content_type = 'video/mp4', attributes = {})
 
-Create a new video from a file or a file path. `attributes` currently only accepts 2 attributes, `access_key` and `track`.
+Create a new video from a file or a file path. `attributes` must be a `Hash` and currently only accepts 2 attributes, `access_key` and `track`.
 If you specify an `access_key`, it must be a UUID. If you don't specify an `access_key`, one will be automatically generated and returned in the response.
 
 ### client.videos.delete(id)
