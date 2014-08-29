@@ -8,7 +8,7 @@ module Fulcrum
       end
 
       def create(object)
-        call(:post, collection, attributes_for_object(object))[resource_name]
+        call(:post, create_action, attributes_for_object(object))[resource_name]
       end
     end
   end
