@@ -112,5 +112,9 @@ module Fulcrum
     def layers
       @layers ||= Fulcrum::Layer.new(self)
     end
+
+    def changesets
+      @changesets ||= Fulcrum::Changeset.new(self)
+    end
   end
 end

@@ -231,6 +231,20 @@ Fetches the GPS track for the specified video.
 ### client.memberships.all(params = {})
 
 
+
+## Changesets
+
+### client.changesets.all(params = {})
+
+### client.changesets.find(id)
+
+### client.changesets.create(changeset)
+
+### client.changesets.update(id, changeset)
+
+### client.changesets.close(id, changeset = {})
+
+
 ## Extra Reading
 
 * [Fulcrum API documentation](http://fulcrumapp.com/developers/api/)
