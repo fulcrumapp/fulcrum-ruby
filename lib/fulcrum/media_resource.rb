@@ -2,6 +2,10 @@ require 'open-uri'
 
 module Fulcrum
   class MediaResource < Resource
+    include Actions::List
+    include Actions::Find
+    include Actions::Create
+
     def default_content_type
       raise NotImplementedError,
         'default_content_type must be implemented in derived classes'

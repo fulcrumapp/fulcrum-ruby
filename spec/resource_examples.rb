@@ -14,113 +14,133 @@ module Support
       let(:create_parameters) { [ File.open(test_file), resource_object[:id] ] }
     end
 
-    shared_examples "a resource" do
-      include_context "with client"
+    shared_context 'with resource parameters' do
+      let(:resource_id) do
+        'abc'
+      end
 
-      describe "successful requests" do
-        let(:pagination) do
-          { current_page: 1,
-            total_pages: 1,
-            total_count: 1,
-            per_page: 50 }
-        end
+      let(:resource_name) do
+        resource.resource_name
+      end
 
-        let(:index_response) do
-          data = pagination
-          data[resource.resources_name.to_sym] = []
-          data.as_json
-        end
+      let(:resources_name) do
+        resource.resources_name
+      end
 
-        let(:show_response) do
-          data = {}
-          data[resource_name] = resource_object
-          data.as_json
-        end
+      let(:collection_url) do
+        "#{client.url}/#{resource.collection}?per_page=#{resource.default_list_params[:per_page]}"
+      end
 
-        let(:resource_id) do
-          'abc'
-        end
+      let(:member_url) do
+        "#{client.url}/#{resource.member(resource_id)}"
+      end
 
-        let(:collection_url) do
-          "#{client.url}/#{resource.collection}?per_page=#{Fulcrum::Resource::DEFAULT_PER_PAGE}"
-        end
+      let(:show_response) do
+        data = {}
+        data[resource_name] = resource_object
+        data.as_json
+      end
+    end
 
-        let(:create_url) do
-          "#{client.url}/#{resource.create_action}"
-        end
+    shared_examples 'list resource' do
+      include_context 'with client'
+      include_context 'with resource parameters'
 
-        let(:member_url) do
-          "#{client.url}/#{resource.member(resource_id)}"
-        end
+      let(:pagination) do
+        { current_page: 1,
+          total_pages: 1,
+          total_count: 1,
+          per_page: 50 }
+      end
 
-        let(:resource_name) do
-          resource.resource_name
-        end
+      let(:list_response) do
+        data = pagination
+        data[resource.resources_name.to_sym] = []
+        data.as_json
+      end
 
-        let(:resources_name) do
-          resource.resources_name
-        end
+      it 'should list all resources' do
+        stub_request(:get, collection_url)
+          .to_return(status: 200, body: list_response)
 
-        it 'should retrieve all objects' do
-          stub_request(:get, collection_url)
-            .to_return(status: 200, body: index_response)
+        page = resource.all
 
-          page = resource.all
+        client.response.status.should eq(200)
 
-          client.response.status.should eq(200)
+        page.should respond_to(:current_page)
+        page.should respond_to(:total_pages)
+        page.should respond_to(:total_count)
+        page.should respond_to(:per_page)
 
-          page.should respond_to(:current_page)
-          page.should respond_to(:total_pages)
-          page.should respond_to(:total_count)
-          page.should respond_to(:per_page)
+        page.objects.should be_a(Array)
+      end
+    end
 
-          page.objects.should be_a(Array)
-        end
+    shared_examples 'find resource' do
+      include_context 'with client'
+      include_context 'with resource parameters'
 
-        it 'should retrieve the specified object and return 200' do
-          stub_request(:get, member_url)
-            .to_return(status: 200, body: show_response)
+      it 'should find a resource' do
+        stub_request(:get, member_url)
+          .to_return(status: 200, body: show_response)
 
-          object = resource.find(resource_id)
+        object = resource.find(resource_id)
 
-          client.response.status.should eq(200)
+        client.response.status.should eq(200)
 
-          object.should be_a(Hash)
-        end
+        object.should be_a(Hash)
+      end
+    end
 
-        it 'should create the object with status 201' do
-          stub_request(:post, create_url)
-            .to_return(status: 201, body: show_response)
+    shared_examples 'create resource' do
+      include_context 'with client'
+      include_context 'with resource parameters'
 
-          object = resource.create(*create_parameters)
+      let(:create_url) do
+        "#{client.url}/#{resource.create_action}"
+      end
 
-          client.response.status.should eq(201)
+      it 'should create a new resource' do
+        stub_request(:post, create_url)
+          .to_return(status: 201, body: show_response)
 
-          object.should be_a(Hash)
-        end
+        object = resource.create(*create_parameters)
 
-        it 'should update the object with status 200' do
-          stub_request(:put, member_url)
-            .to_return(status: 200, body: show_response)
+        client.response.status.should eq(201)
 
-          object = resource.update(resource_id, resource_object)
+        object.should be_a(Hash)
+      end
+    end
 
-          client.response.status.should eq(200)
+    shared_examples 'update resource' do
+      include_context 'with client'
+      include_context 'with resource parameters'
 
-          object.should be_a(Hash)
-        end
+      it 'should update a resource' do
+        stub_request(:put, member_url)
+          .to_return(status: 200, body: show_response)
 
-        it 'should delete the object with status 200' do
-          stub_request(:delete, member_url)
-            .to_return(status: 204, body: show_response)
+        object = resource.update(resource_id, resource_object)
 
-          object = resource.delete(resource_id)
+        client.response.status.should eq(200)
 
-          client.response.status.should eq(204)
+        object.should be_a(Hash)
+      end
+    end
 
-          object.should be_a(Hash)
-        end
+    shared_examples 'delete resource' do
+      include_context 'with client'
+      include_context 'with resource parameters'
 
+      it 'should delete a resource' do
+        stub_request(:delete, member_url)
+          .to_return(status: 204, body: show_response)
+
+        object = resource.delete(resource_id)
+
+        client.response.status.should eq(204)
+
+        object.should be_a(Hash)
       end
     end
   end

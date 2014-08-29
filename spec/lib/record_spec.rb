@@ -8,5 +8,9 @@ describe Fulcrum::Record do
 
   let(:resource) { client.records }
 
-  it_behaves_like "a resource"
+  include_examples 'list resource'
+  include_examples 'find resource'
+  include_examples 'create resource'
+  include_examples 'update resource'
+  include_examples 'delete resource'
 end

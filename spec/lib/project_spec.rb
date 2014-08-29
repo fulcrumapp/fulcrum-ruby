@@ -8,5 +8,6 @@ describe Fulcrum::Project do
 
   let(:resource) { client.projects }
 
-  it_behaves_like "a resource"
+  include_examples 'list resource'
+  include_examples 'find resource'
 end

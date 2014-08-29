@@ -8,5 +8,5 @@ describe Fulcrum::Membership do
 
   let(:resource) { client.memberships }
 
-  it_behaves_like "a resource"
+  include_examples 'list resource'
 end

@@ -10,5 +10,7 @@ describe Fulcrum::Signature do
 
   let(:resource) { client.signatures }
 
-  it_behaves_like "a resource"
+  include_examples 'list resource'
+  include_examples 'find resource'
+  include_examples 'create resource'
 end

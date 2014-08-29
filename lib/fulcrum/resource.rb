@@ -1,7 +1,5 @@
 module Fulcrum
   class Resource
-    DEFAULT_PER_PAGE = 250
-
     attr_accessor :client
 
     def initialize(client)
@@ -32,42 +30,11 @@ module Fulcrum
       "#{resources_name}/#{id}/#{action}.#{format}"
     end
 
-    def create_action
-      collection
-    end
-
-    def default_index_params
-      { per_page: DEFAULT_PER_PAGE }
-    end
-
     def attributes_for_object(object)
       attributes = {}
       attributes[resource_name] = object
       attributes
     end
-
-    def all(params = default_index_params)
-      result = call(:get, collection, default_index_params.merge(params))
-
-      Page.new(result, resources_name)
-    end
-
-    def find(id)
-      call(:get, member(id))[resource_name]
-    end
-
-    def create(object)
-      call(:post, collection, attributes_for_object(object))[resource_name]
-    end
-
-    def update(id, object)
-      call(:put, member(id), attributes_for_object(object))[resource_name]
-    end
-
-    def delete(id)
-      call(:delete, member(id))
-    end
-
   end
 end
 
