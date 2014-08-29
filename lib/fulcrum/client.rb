@@ -68,7 +68,7 @@ module Fulcrum
         connection.adapter  Faraday.default_adapter
 
         connection.headers['X-ApiToken'] = key if key
-        connection.headers['X-Require-Attachments'] = '0'
+        connection.headers['X-Require-Media'] = 'false'
         connection.headers['User-Agent'] = DEFAULT_USER_AGENT
       end
     end
