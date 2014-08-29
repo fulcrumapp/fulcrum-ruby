@@ -11,8 +11,8 @@ module Fulcrum
         'default_content_type must be implemented in derived classes'
     end
 
-    def attributes_for_upload(file, id = new_id, content_type = default_content_type, attrs = {})
-      file = Faraday::UploadIO.new(file, content_type)
+    def attributes_for_upload(file, id = new_id, content_type = nil, attrs = {})
+      file = Faraday::UploadIO.new(file, content_type || default_content_type)
 
       resource_attributes = { file: file, access_key: id }
 
@@ -23,7 +23,7 @@ module Fulcrum
       attributes
     end
 
-    def create(file, id = new_id, content_type = default_content_type, attrs = {})
+    def create(file, id = new_id, content_type = nil, attrs = {})
       call(:post, create_action, attributes_for_upload(file, id, content_type, attrs))
     end
 
