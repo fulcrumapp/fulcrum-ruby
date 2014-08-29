@@ -11,7 +11,7 @@ module Support
 
     shared_context 'with media resource' do
       let(:resource_object) { { id: SecureRandom.uuid } }
-      let(:create_parameters) { [ File.open(test_file), resource_object[:id] ] }
+      let(:create_parameters) { [ File.open(test_file), nil, { access_key: resource_id } ] }
     end
 
     shared_context 'with resource parameters' do

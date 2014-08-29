@@ -11,35 +11,36 @@ module Fulcrum
         'default_content_type must be implemented in derived classes'
     end
 
-    def attributes_for_upload(file, id = new_id, content_type = nil, attrs = {})
+    def attributes_for_upload(file, content_type = nil, attributes = {})
+      attributes ||= {}
+
       file = Faraday::UploadIO.new(file, content_type || default_content_type)
 
-      resource_attributes = { file: file, access_key: id }
+      attributes[:file] = file
+      attributes[:access_key] ||= new_access_key
 
-      resource_attributes.merge!(attrs)
-
-      attributes = {}
-      attributes[resource_name] = resource_attributes
-      attributes
+      media_attributes = {}
+      media_attributes[resource_name] = attributes
+      media_attributes
     end
 
-    def create(file, id = new_id, content_type = nil, attrs = {})
-      call(:post, create_action, attributes_for_upload(file, id, content_type, attrs))
+    def create(file, content_type = nil, attrs = {})
+      call(:post, create_action, attributes_for_upload(file, content_type, attrs))
     end
 
     def download(url, &blk)
       open(url, "rb", &blk)
     end
 
-    def download_version(id, version, &blk)
-      download(find(id)[version], &blk)
+    def download_version(access_key, version, &blk)
+      download(find(access_key)[version], &blk)
     end
 
-    def original(id, &blk)
-      download_version(id, 'original', &blk)
+    def original(access_key, &blk)
+      download_version(access_key, 'original', &blk)
     end
 
-    def new_id
+    def new_access_key
       SecureRandom.uuid
     end
   end
