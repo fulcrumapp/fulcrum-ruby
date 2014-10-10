@@ -7,6 +7,7 @@ Gem::Specification.new do |gem|
   gem.description   = %q{Fulcrum API}
   gem.summary       = %q{Fulcrum API client for ruby}
   gem.homepage      = "http://github.com/spatialnetworks/fulcrum-ruby"
+  gem.licenses      = ["MIT"]
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
