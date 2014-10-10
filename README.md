@@ -264,7 +264,7 @@ Fetches the GPS track for the specified video.
 
 ### client.webhooks.update(id, webhook)
 
-### client.webhooks.close(id, webhook = {})
+### client.webhooks.delete(id)
 
 
 ## Extra Reading
