@@ -116,5 +116,9 @@ module Fulcrum
     def changesets
       @changesets ||= Fulcrum::Changeset.new(self)
     end
+
+    def webhooks
+      @webhooks ||= Fulcrum::Webhook.new(self)
+    end
   end
 end

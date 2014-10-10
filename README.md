@@ -254,6 +254,19 @@ Fetches the GPS track for the specified video.
 ### client.changesets.close(id, changeset = {})
 
 
+## Webhooks
+
+### client.webhooks.all(params = {})
+
+### client.webhooks.find(id)
+
+### client.webhooks.create(webhook)
+
+### client.webhooks.update(id, webhook)
+
+### client.webhooks.delete(id)
+
+
 ## Extra Reading
 
 * [Fulcrum API documentation](http://fulcrumapp.com/developers/api/)
