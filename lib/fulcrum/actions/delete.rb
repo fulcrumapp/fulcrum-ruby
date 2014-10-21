@@ -9,4 +9,3 @@ module Fulcrum
     end
   end
 end
-

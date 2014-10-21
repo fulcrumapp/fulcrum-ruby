@@ -78,9 +78,9 @@ Create a new record from a `Hash` of attributes. The format of the attributes is
 
 Update an existing record by its `id` using a `Hash` of attributes. The format of the attributes is identical to the format returned from `find`. The [record API documentation](http://fulcrumapp.com/developers/api/records) has more information on the format. **Note:** although the raw API uses a hash wrapped in a `record` attribute, this is not necessary for the ruby API. Instead of `{ "record" => record_attributes }`, you simply pass `record_attributes` directly to this method.
 
-### client.records.delete(id)
+### client.records.delete(id, changeset_id=nil)
 
-Delete a record by its `id`.
+Delete a record by its `id`. This method optionally accepts a `changeset_id` to group deletes into a Changeset for compatibility with the activity feed.
 
 
 
