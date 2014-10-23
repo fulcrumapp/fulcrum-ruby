@@ -1,3 +1,9 @@
+## v0.4.2 (October 23, 2014)
+* Fix specs
+
+## v0.4.1 (October 23, 2014)
+* Change to gem info
+
 ## v0.4.0 (October 21, 2014)
 * Add support for changesets on record delete calls
 
