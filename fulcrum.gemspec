@@ -2,11 +2,11 @@
 require File.expand_path('../lib/fulcrum/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.authors       = ["Spatial Networks"]
-  gem.email         = ["sniadmin@spatialnetworks.com"]
+  gem.authors       = ["Fulcrum"]
+  gem.email         = ["info@fulcrumapp.com"]
   gem.description   = %q{Fulcrum API}
   gem.summary       = %q{Fulcrum API client for ruby}
-  gem.homepage      = "http://github.com/spatialnetworks/fulcrum-ruby"
+  gem.homepage      = "https://github.com/fulcrumapp/fulcrum-ruby"
   gem.licenses      = ["MIT"]
 
   gem.files         = `git ls-files`.split($\)
