@@ -1,5 +1,6 @@
 ## v0.4.2 (October 23, 2014)
 * Fix specs
+* Remove ruby 1.9.2 from travis configuration
 
 ## v0.4.1 (October 23, 2014)
 * Change to gem info
