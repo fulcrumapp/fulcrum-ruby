@@ -6,7 +6,10 @@ module Fulcrum
     include Actions::Update
 
     def delete(id, changeset_id=nil)
-      call(:delete, member(id), attributes_for_object(changeset_id: changeset_id))
+      record_attributes = {}
+      record_attributes[:changeset_id] = changeset_id if changeset_id
+
+      call(:delete, member(id), attributes_for_object(record_attributes))
     end
   end
 end
