@@ -4,7 +4,7 @@ Fulcrum API Gem
 
 ## Requirements
 
-* Ruby 1.9
+* Ruby 1.9.3+
 * [Fulcrum account](https://web.fulcrumapp.com)
 
 ## Installation
