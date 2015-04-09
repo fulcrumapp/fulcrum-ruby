@@ -8,6 +8,6 @@ describe Fulcrum::Layer do
 
   let(:resource) { client.layers }
 
-  include_examples 'list resource'
-  include_examples 'find resource'
+  include_examples 'lists resource'
+  include_examples 'finds resource'
 end
