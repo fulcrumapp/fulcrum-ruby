@@ -6,6 +6,8 @@ module Fulcrum
     include Actions::Find
     include Actions::Create
 
+    class Fulcrum::MediaNotAvailableError < StandardError; end
+
     def default_content_type
       raise NotImplementedError,
         'default_content_type must be implemented in derived classes'
@@ -33,7 +35,13 @@ module Fulcrum
     end
 
     def download_version(access_key, version, &blk)
-      download(find(access_key)[version], &blk)
+      media = find(access_key)
+
+      unless media[version]
+        raise Fulcrum::MediaNotAvailableError, "The #{resource_name} version you requested is not available."
+      end
+
+      download(media[version], &blk)
     end
 
     def original(access_key, &blk)
