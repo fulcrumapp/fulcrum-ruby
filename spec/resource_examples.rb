@@ -56,23 +56,24 @@ module Support
       let(:list_response) do
         data = pagination
         data[resource.resources_name.to_sym] = []
-        data.as_json
+        data.to_json
       end
 
-      it 'should list all resources' do
+      it 'lists all resources' do
         stub_request(:get, collection_url)
-          .to_return(status: 200, body: list_response)
+          .to_return(status: 200, body: list_response,
+                     headers: {"Content-Type" => "application/json"})
 
         page = resource.all
 
-        client.response.status.should eq(200)
+        expect(client.response.status).to eq(200)
 
-        page.should respond_to(:current_page)
-        page.should respond_to(:total_pages)
-        page.should respond_to(:total_count)
-        page.should respond_to(:per_page)
+        expect(page).to respond_to(:current_page)
+        expect(page).to respond_to(:total_pages)
+        expect(page).to respond_to(:total_count)
+        expect(page).to respond_to(:per_page)
 
-        page.objects.should be_a(Array)
+        expect(page.objects).to be_a(Array)
       end
     end
 
