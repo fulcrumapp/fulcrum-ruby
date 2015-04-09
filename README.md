@@ -1,4 +1,5 @@
-# Fulcrum [![Build Status](https://secure.travis-ci.org/fulcrumapp/fulcrum-ruby.png)](http://travis-ci.org/fulcrumapp/fulcrum-ruby)
+# Fulcrum [![Build Status](https://secure.travis-ci.org/fulcrumapp/fulcrum-ruby.svg)](http://travis-ci.org/fulcrumapp/fulcrum-ruby)
+
 
 Fulcrum API Gem
 
