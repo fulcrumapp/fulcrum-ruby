@@ -93,6 +93,10 @@ module Fulcrum
       @videos ||= Fulcrum::Video.new(self)
     end
 
+    def audio
+      @audio ||= Fulcrum::Audio.new(self)
+    end
+
     def signatures
       @signatures ||= Fulcrum::Signature.new(self)
     end

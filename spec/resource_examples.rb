@@ -38,11 +38,11 @@ module Support
       let(:show_response) do
         data = {}
         data[resource_name] = resource_object
-        data.as_json
+        data.to_json
       end
     end
 
-    shared_examples 'list resource' do
+    shared_examples 'lists resource' do
       include_context 'with client'
       include_context 'with resource parameters'
 
@@ -56,43 +56,45 @@ module Support
       let(:list_response) do
         data = pagination
         data[resource.resources_name.to_sym] = []
-        data.as_json
+        data.to_json
       end
 
-      it 'should list all resources' do
+      it 'lists all resources' do
         stub_request(:get, collection_url)
-          .to_return(status: 200, body: list_response)
+          .to_return(status: 200, body: list_response,
+                     headers: {"Content-Type" => "application/json"})
 
         page = resource.all
 
-        client.response.status.should eq(200)
+        expect(client.response.status).to eq(200)
 
-        page.should respond_to(:current_page)
-        page.should respond_to(:total_pages)
-        page.should respond_to(:total_count)
-        page.should respond_to(:per_page)
+        expect(page).to respond_to(:current_page)
+        expect(page).to respond_to(:total_pages)
+        expect(page).to respond_to(:total_count)
+        expect(page).to respond_to(:per_page)
 
-        page.objects.should be_a(Array)
+        expect(page.objects).to be_a(Array)
       end
     end
 
-    shared_examples 'find resource' do
+    shared_examples 'finds resource' do
       include_context 'with client'
       include_context 'with resource parameters'
 
-      it 'should find a resource' do
+      it 'finds a resource' do
         stub_request(:get, member_url)
-          .to_return(status: 200, body: show_response)
+          .to_return(status: 200, body: show_response,
+                     headers: {"Content-Type" => "application/json"})
 
         object = resource.find(resource_id)
 
-        client.response.status.should eq(200)
+        expect(client.response.status).to eq(200)
 
-        object.should be_a(Hash)
+        expect(object).to be_a(Hash)
       end
     end
 
-    shared_examples 'create resource' do
+    shared_examples 'creates resource' do
       include_context 'with client'
       include_context 'with resource parameters'
 
@@ -100,47 +102,50 @@ module Support
         "#{client.url}/#{resource.create_action}"
       end
 
-      it 'should create a new resource' do
+      it 'creates a new resource' do
         stub_request(:post, create_url)
-          .to_return(status: 201, body: show_response)
+          .to_return(status: 201, body: show_response,
+                     headers: {"Content-Type" => "application/json"})
 
         object = resource.create(*create_parameters)
 
-        client.response.status.should eq(201)
+        expect(client.response.status).to eq(201)
 
-        object.should be_a(Hash)
+        expect(object).to be_a(Hash)
       end
     end
 
-    shared_examples 'update resource' do
+    shared_examples 'updates resource' do
       include_context 'with client'
       include_context 'with resource parameters'
 
-      it 'should update a resource' do
+      it 'updates a resource' do
         stub_request(:put, member_url)
-          .to_return(status: 200, body: show_response)
+          .to_return(status: 200, body: show_response,
+                     headers: {"Content-Type" => "application/json"})
 
         object = resource.update(resource_id, resource_object)
 
-        client.response.status.should eq(200)
+        expect(client.response.status).to eq(200)
 
-        object.should be_a(Hash)
+        expect(object).to be_a(Hash)
       end
     end
 
-    shared_examples 'delete resource' do
+    shared_examples 'deletes resource' do
       include_context 'with client'
       include_context 'with resource parameters'
 
-      it 'should delete a resource' do
+      it 'deletes a resource' do
         stub_request(:delete, member_url)
-          .to_return(status: 204, body: show_response)
+          .to_return(status: 204, body: show_response,
+                     headers: {"Content-Type" => "application/json"})
 
         object = resource.delete(resource_id)
 
-        client.response.status.should eq(204)
+        expect(client.response.status).to eq(204)
 
-        object.should be_a(Hash)
+        expect(object).to be_a(Hash)
       end
     end
   end
