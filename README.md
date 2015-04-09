@@ -4,7 +4,7 @@ Fulcrum API Gem
 
 ## Requirements
 
-* Ruby 1.9
+* Ruby 1.9.3+
 * [Fulcrum account](https://web.fulcrumapp.com)
 
 ## Installation
@@ -235,6 +235,37 @@ Fetches the GPS track for the specified video.
 
 
 
+## Audio
+
+### client.audio.all(params = {})
+
+### client.audio.find(id)
+
+### client.audio.create(file_or_path, content_type = 'audio/x-m4a', attributes = {})
+
+Create a new audio object from a file or a file path. `attributes` must be a `Hash` and currently only accepts 2 attributes, `access_key` and `track`.
+If you specify an `access_key`, it must be a UUID. If you don't specify an `access_key`, one will be automatically generated and returned in the response.
+
+### client.audio.delete(id)
+
+### client.audio.original(id) {|io| block }
+
+Downloads the original version and yields an IO object to the block.
+
+### client.audio.small(id) {|io| block }
+
+Downloads the small version and yields an IO object to the block.
+
+### client.audio.medium(id) {|io| block }
+
+Downloads the medium version and yields an IO object to the block.
+
+### client.audio.track(id)
+
+Fetches the GPS track for the specified audio.
+
+
+
 ## Memberships
 
 ### client.memberships.all(params = {})
@@ -254,6 +285,7 @@ Fetches the GPS track for the specified video.
 ### client.changesets.close(id, changeset = {})
 
 
+
 ## Webhooks
 
 ### client.webhooks.all(params = {})
@@ -265,6 +297,7 @@ Fetches the GPS track for the specified video.
 ### client.webhooks.update(id, webhook)
 
 ### client.webhooks.delete(id)
+
 
 
 ## Extra Reading
