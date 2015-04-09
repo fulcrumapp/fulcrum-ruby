@@ -1,6 +1,7 @@
 ## v0.5.0
-* Add audio support
-* Fix broken specs and deprecations
+* Add audio support (#5)
+* Fix broken specs and deprecations (#2)
+* Specify dependency versions in gemspec (#7)
 
 ## v0.4.2 (October 23, 2014)
 * Fix specs
