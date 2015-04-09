@@ -2,6 +2,7 @@
 * Add audio support (#5)
 * Fix broken specs and deprecations (#2)
 * Specify dependency versions in gemspec (#7)
+* Raise exception when media file can't be downloaded (#9)
 
 ## v0.4.2 (October 23, 2014)
 * Fix specs
