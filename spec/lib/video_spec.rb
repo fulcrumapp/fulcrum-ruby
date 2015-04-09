@@ -10,7 +10,7 @@ describe Fulcrum::Video do
 
   let(:resource) { client.videos }
 
-  include_examples 'list resource'
-  include_examples 'find resource'
-  include_examples 'create resource'
+  include_examples 'lists resource'
+  include_examples 'finds resource'
+  include_examples 'creates resource'
 end

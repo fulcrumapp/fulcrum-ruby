@@ -8,6 +8,6 @@ describe Fulcrum::Project do
 
   let(:resource) { client.projects }
 
-  include_examples 'list resource'
-  include_examples 'find resource'
+  include_examples 'lists resource'
+  include_examples 'finds resource'
 end
