@@ -1,5 +1,7 @@
 module Fulcrum
   class Audio < MediaResource
+    include MediaVersions
+
     def resources_name
       resource_name
     end
@@ -10,14 +12,6 @@ module Fulcrum
 
     def create_action
       'audio/upload'
-    end
-
-    def small(id, &blk)
-      download_version(id, 'small', &blk)
-    end
-
-    def medium(id, &blk)
-      download_version(id, 'medium', &blk)
     end
 
     def track(id)
