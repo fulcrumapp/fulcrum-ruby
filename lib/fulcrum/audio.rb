@@ -1,6 +1,7 @@
 module Fulcrum
   class Audio < MediaResource
     include MediaVersions
+    include GpsTrack
 
     def resources_name
       resource_name
@@ -12,10 +13,6 @@ module Fulcrum
 
     def create_action
       'audio/upload'
-    end
-
-    def track(id)
-      call(:get, member_action(id, 'track'))
     end
   end
 end
