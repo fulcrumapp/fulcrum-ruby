@@ -230,9 +230,11 @@ Downloads the small version and yields an IO object to the block.
 
 Downloads the medium version and yields an IO object to the block.
 
-### client.videos.track(id)
+### client.videos.track(id, format='json')
 
 Fetches the GPS track for the specified video.
+
+Format can be 'json', 'geojson', 'gpx', or 'kml'.
 
 
 
@@ -261,9 +263,11 @@ Downloads the small version and yields an IO object to the block.
 
 Downloads the medium version and yields an IO object to the block.
 
-### client.audio.track(id)
+### client.audio.track(id, format='json')
 
 Fetches the GPS track for the specified audio.
+
+Format can be 'json', 'geojson', 'gpx', or 'kml'.
 
 
 
@@ -312,3 +316,4 @@ Fetches the GPS track for the specified audio.
 3. Commit your changes (`git commit -am 'Added some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
