@@ -20,7 +20,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'rspec', '~> 3.2', '>= 3.2.0'
   gem.add_development_dependency 'webmock', '~> 1.12', '>= 1.12.0'
 
-  gem.add_dependency 'activesupport', '~> 4.2', '>= 4.2.1'
+  gem.add_dependency 'activesupport', '~> 4.1', '>= 4.1.0'
   gem.add_dependency 'faraday', '~> 0.9', '>= 0.9.1'
   gem.add_dependency 'faraday_middleware', '~> 0.9', '>= 0.9.1'
 end
