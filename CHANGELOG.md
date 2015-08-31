@@ -1,3 +1,7 @@
+## v0.6.0
+* Add format option for fetching media tracks (default: json) (#10)
+* Lower ActiveSupport dependency to 4.1.x (#12)
+
 ## v0.5.0
 * Add audio support (#5)
 * Fix broken specs and deprecations (#2)
