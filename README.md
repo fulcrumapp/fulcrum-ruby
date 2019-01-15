@@ -305,6 +305,14 @@ Format can be 'json', 'geojson', 'gpx', or 'kml'.
 
 
 
+## Audit Logs
+
+### client.audit_logs.all(params = {})
+
+### client.audit_logs.find(id)
+
+
+
 ## Extra Reading
 
 * [Fulcrum API documentation](http://fulcrumapp.com/developers/api/)
