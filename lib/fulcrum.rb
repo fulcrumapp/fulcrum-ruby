@@ -24,4 +24,5 @@ require 'fulcrum/layer'
 require 'fulcrum/changeset'
 require 'fulcrum/webhook'
 require 'fulcrum/client'
+require 'fulcrum/audit_log'
 

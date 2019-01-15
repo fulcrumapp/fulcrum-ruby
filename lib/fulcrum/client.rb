@@ -124,5 +124,9 @@ module Fulcrum
     def webhooks
       @webhooks ||= Fulcrum::Webhook.new(self)
     end
+
+    def audit_logs
+      @audit_logs ||= Fulcrum::AuditLog.new(self)
+    end
   end
 end
