@@ -143,6 +143,8 @@ module Support
 
         object = resource.delete(resource_id)
 
+        puts object.inspect
+
         expect(client.response.status).to eq(204)
 
         expect(object).to be_a(Hash)
