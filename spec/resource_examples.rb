@@ -138,7 +138,7 @@ module Support
 
       it 'deletes a resource' do
         stub_request(:delete, member_url)
-          .to_return(status: 204, body: show_response,
+          .to_return(status: 204, body: nil,
                      headers: {"Content-Type" => "application/json"})
 
         object = resource.delete(resource_id)
