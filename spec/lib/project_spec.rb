@@ -10,4 +10,7 @@ describe Fulcrum::Project do
 
   include_examples 'lists resource'
   include_examples 'finds resource'
+  include_examples 'creates resource'
+  include_examples 'updates resource'
+  include_examples 'deletes resource'
 end
