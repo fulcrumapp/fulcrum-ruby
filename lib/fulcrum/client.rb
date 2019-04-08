@@ -124,5 +124,9 @@ module Fulcrum
     def webhooks
       @webhooks ||= Fulcrum::Webhook.new(self)
     end
+
+    def roles
+      @roles ||= Fulcrum::Role.new(self)
+    end
   end
 end

@@ -23,5 +23,6 @@ require 'fulcrum/record'
 require 'fulcrum/layer'
 require 'fulcrum/changeset'
 require 'fulcrum/webhook'
+require 'fulcrum/role'
 require 'fulcrum/client'
 
