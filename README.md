@@ -303,7 +303,9 @@ Format can be 'json', 'geojson', 'gpx', or 'kml'.
 
 ### client.webhooks.delete(id)
 
+## Roles
 
+### client.roles.all(params = {})
 
 ## Extra Reading
 
