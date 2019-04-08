@@ -11,5 +11,9 @@ module Fulcrum
 
       call(:delete, member(id), attributes_for_object(record_attributes))
     end
+
+    def history(id)
+      call(:get, member_action(id, 'history'))
+    end
   end
 end
