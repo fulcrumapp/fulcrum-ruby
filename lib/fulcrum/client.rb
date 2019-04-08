@@ -128,5 +128,9 @@ module Fulcrum
     def roles
       @roles ||= Fulcrum::Role.new(self)
     end
+
+    def audit_logs
+      @audit_logs ||= Fulcrum::AuditLog.new(self)
+    end
   end
 end
