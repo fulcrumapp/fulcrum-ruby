@@ -1,3 +1,8 @@
+## vTBD
+* Add roles support (#20)
+* Add audit logs support (#13)
+* Add ability to create, update, and delete projects (#16)
+
 ## v0.6.0
 * Add format option for fetching media tracks (default: json) (#10)
 * Lower ActiveSupport dependency to 4.1.x (#12)
