@@ -83,6 +83,10 @@ Update an existing record by its `id` using a `Hash` of attributes. The format o
 
 Delete a record by its `id`. This method optionally accepts a `changeset_id` to group deletes into a Changeset for compatibility with the activity feed.
 
+### client.records.find(id)
+
+Find a record's history by its `id`.
+
 
 
 ## Forms
