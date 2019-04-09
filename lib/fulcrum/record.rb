@@ -11,5 +11,11 @@ module Fulcrum
 
       call(:delete, member(id), attributes_for_object(record_attributes))
     end
+
+    def history(id)
+      result = call(:get, member_action(id, 'history'))
+
+      Page.new(result, resources_name)
+    end
   end
 end
