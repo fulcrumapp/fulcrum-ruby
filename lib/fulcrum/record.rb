@@ -13,7 +13,9 @@ module Fulcrum
     end
 
     def history(id)
-      call(:get, member_action(id, 'history'))
+      result = call(:get, member_action(id, 'history'))
+
+      Page.new(result, resources_name)
     end
   end
 end
