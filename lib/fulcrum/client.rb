@@ -132,5 +132,11 @@ module Fulcrum
     def audit_logs
       @audit_logs ||= Fulcrum::AuditLog.new(self)
     end
+
+    def query(sql, format = 'json')
+      body = { q: sql,
+               format: format }
+      call(:post, 'query', body)
+    end
   end
 end
