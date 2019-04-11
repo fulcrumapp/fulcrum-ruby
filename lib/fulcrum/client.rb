@@ -52,9 +52,20 @@ module Fulcrum
 
       resp.body['user']['contexts'].map do |context|
         { id: context['id'],
-          name: context['name'],
-          token: context['api_token'] }
+          name: context['name'] }
       end
+    end
+
+    def self.get_user(username, password, url=DEFAULT_URL)
+      connection = create_connection(url)
+
+      connection.basic_auth(username, password)
+
+      resp = connection.get('users.json')
+      user = resp.body['user']
+      user['contexts'] = user['contexts'].map{|c| c.except!('api_token')}
+
+      user
     end
 
     def self.create_connection(url, key = nil)
