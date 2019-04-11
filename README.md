@@ -307,15 +307,31 @@ Format can be 'json', 'geojson', 'gpx', or 'kml'.
 
 ### client.webhooks.delete(id)
 
+
+
 ## Roles
 
 ### client.roles.all(params = {})
+
+
 
 ## Audit Logs
 
 ### client.audit_logs.all(params = {})
 
 ### client.audit_logs.find(id)
+
+
+
+## Query
+
+### client.query(sql, format = 'json')
+
+Fetches a Query API response for various formats for a provided SQL string.
+
+Format can be 'json', 'csv', or 'geojson'.
+
+
 
 ## Extra Reading
 
