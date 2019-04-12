@@ -156,6 +156,10 @@ module Fulcrum
       @audit_logs ||= Fulcrum::AuditLog.new(self)
     end
 
+    def authorizations
+      @authorizations ||= Fulcrum::Authorization.new(self)
+    end
+
     def query(sql, format = 'json')
       body = { q: sql,
                format: format }

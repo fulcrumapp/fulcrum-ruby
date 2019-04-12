@@ -333,6 +333,20 @@ Format can be 'json', 'geojson', 'gpx', or 'kml'.
 
 
 
+## Authorizations
+
+### client.authorizations.all(params = {})
+
+### client.authorizations.find(id)
+
+### client.authorizations.update(id, authorization)
+
+### client.authorizations.delete(id)
+
+### client.authorizations.regenerate(id)
+
+
+
 ## Query
 
 ### client.query(sql, format = 'json')

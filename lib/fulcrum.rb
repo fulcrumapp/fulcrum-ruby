@@ -25,5 +25,6 @@ require 'fulcrum/changeset'
 require 'fulcrum/webhook'
 require 'fulcrum/role'
 require 'fulcrum/audit_log'
+require 'fulcrum/authorization'
 require 'fulcrum/client'
 
