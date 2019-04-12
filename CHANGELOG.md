@@ -4,6 +4,8 @@
 * Add ability to create, update, and delete projects (#16)
 * Add record history support (#15)
 * Add Query API support (#21)
+* Add authorizations support (#18)
+* Add users support (#17)
 
 ## v0.6.0
 * Add format option for fetching media tracks (default: json) (#10)
