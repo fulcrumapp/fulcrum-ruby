@@ -1,4 +1,4 @@
-## vTBD
+## v0.7.0 (April 12, 2019)
 * Add roles support (#20)
 * Add audit logs support (#13)
 * Add ability to create, update, and delete projects (#16)
