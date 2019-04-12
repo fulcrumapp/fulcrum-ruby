@@ -28,10 +28,20 @@ Or install it yourself as:
 
 ## Client
 
-All interaction with the API is done through a client object. Below is a simple example of how to instantiate a client object.
+Most interaction with the API is done through a client object. Below is a simple example of how to instantiate a client object.
 
 ```ruby
 client = Fulcrum::Client.new(your_api_key)
+```
+
+A client object assumes you have an API key. To get an API key use the `get_user` and `create_authorization` class methods.
+
+```ruby
+Fulcrum::Client.get_user(email, password)
+# returns a user's name, email, avatar url, and a list of organizations with ids for creating authorizations
+
+Fulcrum::Client.create_authorization(email, password, org_id, note, timeout = nil, user_id = nil)
+# creates an authorization for yourself or another user in the provided organization id
 ```
 
 
@@ -320,6 +330,20 @@ Format can be 'json', 'geojson', 'gpx', or 'kml'.
 ### client.audit_logs.all(params = {})
 
 ### client.audit_logs.find(id)
+
+
+
+## Authorizations
+
+### client.authorizations.all(params = {})
+
+### client.authorizations.find(id)
+
+### client.authorizations.update(id, authorization)
+
+### client.authorizations.delete(id)
+
+### client.authorizations.regenerate(id)
 
 
 

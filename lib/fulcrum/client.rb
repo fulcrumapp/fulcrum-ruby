@@ -52,9 +52,32 @@ module Fulcrum
 
       resp.body['user']['contexts'].map do |context|
         { id: context['id'],
-          name: context['name'],
-          token: context['api_token'] }
+          name: context['name'] }
       end
+    end
+
+    def self.get_user(username, password, url=DEFAULT_URL)
+      connection = create_connection(url)
+
+      connection.basic_auth(username, password)
+
+      resp = connection.get('users.json')
+      user = resp.body['user']
+      user['contexts'] = user['contexts'].map{|c| c.except!('api_token')}
+
+      user
+    end
+
+    def self.create_authorization(username, password, organization_id, note, timeout = nil, user_id = nil, url=DEFAULT_URL)
+      connection = create_connection(url)
+
+      connection.basic_auth(username, password)
+
+      body = { authorization: { organization_id: organization_id,
+                                note: note, timeout: timeout, user_id: user_id } }
+      resp = connection.post('authorizations.json', body)
+
+      resp.body['authorization']
     end
 
     def self.create_connection(url, key = nil)
@@ -131,6 +154,10 @@ module Fulcrum
 
     def audit_logs
       @audit_logs ||= Fulcrum::AuditLog.new(self)
+    end
+
+    def authorizations
+      @authorizations ||= Fulcrum::Authorization.new(self)
     end
 
     def query(sql, format = 'json')
