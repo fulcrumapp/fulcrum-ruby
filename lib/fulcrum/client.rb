@@ -68,6 +68,18 @@ module Fulcrum
       user
     end
 
+    def self.create_authorization(username, password, organization_id, note, timeout = nil, user_id = nil, url=DEFAULT_URL)
+      connection = create_connection(url)
+
+      connection.basic_auth(username, password)
+
+      body = { authorization: { organization_id: organization_id,
+                                note: note, timeout: timeout, user_id: user_id } }
+      resp = connection.post('authorizations.json', body)
+
+      resp.body['authorization']
+    end
+
     def self.create_connection(url, key = nil)
       Faraday.new(url) do |connection|
         connection.request  :multipart
