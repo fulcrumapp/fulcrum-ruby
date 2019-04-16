@@ -357,9 +357,10 @@ Format can be 'json', 'csv', or 'geojson'.
 
 
 
-## Extra Reading
+## Documentation & Examples
 
-* [Fulcrum API documentation](http://fulcrumapp.com/developers/api/)
+* [Fulcrum REST API](https://learn.fulcrumapp.com/dev/rest/intro)
+* [Fulcrum Query API](https://learn.fulcrumapp.com/dev/query/intro#examples)
 
 ## Contributing
 
