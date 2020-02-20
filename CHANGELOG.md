@@ -1,3 +1,6 @@
+## v0.8.0 (February 20, 2020)
+* Add form history support (#28)
+
 ## v0.7.0 (April 12, 2019)
 * Add roles support (#20)
 * Add audit logs support (#13)
