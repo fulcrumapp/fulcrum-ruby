@@ -16,7 +16,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Fulcrum::VERSION
 
-  gem.add_development_dependency 'rake', '~> 10.4', '>= 10.4.2'
+  gem.add_development_dependency 'rake', ">= 12.3.3"
   gem.add_development_dependency 'rspec', '~> 3.2', '>= 3.2.0'
   gem.add_development_dependency 'webmock', '~> 1.12', '>= 1.12.0'
 
