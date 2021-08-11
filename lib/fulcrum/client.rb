@@ -120,6 +120,10 @@ module Fulcrum
       @audio ||= Fulcrum::Audio.new(self)
     end
 
+    def attachments
+      @attachment ||= Fulcrum::Attachment.new(self)
+    end
+
     def signatures
       @signatures ||= Fulcrum::Signature.new(self)
     end
