@@ -19,9 +19,10 @@ module Fulcrum
     end
 
     def create(file, attrs = {})
+      file = Faraday::UploadIO.new(file, nil)
       response = call(:post, create_action, attrs)
       call(:put, response['url'], {file: file})
-      { name: attrs[:name], attachment_id:  response['id'] }
+      { name: attrs[:name], attachment_id: response['id'] }
     end
   end
 end
