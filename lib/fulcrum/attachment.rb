@@ -19,10 +19,24 @@ module Fulcrum
     end
 
     def create(file, attrs = {})
-      file = Faraday::UploadIO.new(file, nil)
       response = call(:post, create_action, attrs)
-      call(:put, response['url'], {file: file})
+      binary_upload(file, response['url'], attrs[:file_size])
       { name: attrs[:name], attachment_id: response['id'] }
+    end
+
+    private
+
+    def binary_upload(file, url, file_size)
+      connection = Faraday.new(url: url) do |faraday|
+        faraday.request :multipart
+        faraday.adapter :net_http
+      end
+      connection.put do |req|
+        req.headers['Content-Type'] = 'octet/stream'
+        req.headers['Content-Length'] = "#{file_size}"
+        req.headers['Content-Transfer-Encoding'] = 'binary'
+        req.body = Faraday::UploadIO.new(file, 'octet/stream')
+      end
     end
   end
 end
