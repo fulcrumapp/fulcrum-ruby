@@ -18,6 +18,10 @@ module Fulcrum
       call(:get, member(id))
     end
 
+    def all(params = {})
+      call(:get, collection, params)
+    end
+
     def create(file, attrs = {})
       response = call(:post, create_action, attrs)
       binary_upload(file, response['url'], attrs[:file_size])

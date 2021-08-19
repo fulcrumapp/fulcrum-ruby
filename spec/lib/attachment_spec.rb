@@ -11,12 +11,31 @@ describe Fulcrum::Attachment do
 
   let(:resource) { client.attachments }
 
-  include_examples 'lists resource'
   include_examples 'finds resource'
   include_examples 'deletes resource'
 
   let(:create_url) do
     "#{client.url}/#{resource.create_action}"
+  end
+
+  describe '#all' do
+    let(:list_response) do
+      data = {}
+      data["form_id"] = {}
+      data.to_json
+    end
+
+    it 'lists all attachments' do
+      stub_request(:get, create_url)
+        .to_return(status: 200, body: list_response,
+                   headers: {"Content-Type" => "application/json"})
+
+      resources = resource.all
+
+      expect(client.response.status).to eq(200)
+
+      expect(resources).to be_a(Hash)
+    end
   end
 
   describe '#create' do
@@ -63,8 +82,8 @@ describe Fulcrum::Attachment do
   describe '#finalize' do
     it 'finalizes the attachment' do
       stub_request(:post, "#{create_url}/finalize")
-            .to_return(status: 201,
-                      headers: {"Content-Type" => "application/json"})
+        .to_return(status: 201,
+                   headers: {"Content-Type" => "application/json"})
 
       object = resource.finalize(resource_id)
 
