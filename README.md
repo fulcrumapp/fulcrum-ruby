@@ -291,6 +291,22 @@ Format can be 'json', 'geojson', 'gpx', or 'kml'.
 
 
 
+## Attachments
+
+### client.attachments.all(params = {})
+
+### client.attachments.find(id)
+
+### client.attachments.create(file_or_path, attributes = {})
+
+Suggestion pass a File.open(file) to this as parameter
+
+### client.attachments.finalize(id)
+
+### client.attachments.delete(id)
+
+
+
 ## Changesets
 
 ### client.changesets.all(params = {})
