@@ -2,9 +2,7 @@ require 'faraday'
 require 'faraday_middleware'
 
 module Fulcrum
-
   class Client
-
     DEFAULT_URL = 'https://api.fulcrumapp.com/api/v2'
 
     DEFAULT_USER_AGENT = "Fulcrum Ruby API Client, Version #{Fulcrum::VERSION}"
@@ -62,6 +60,7 @@ module Fulcrum
       connection.basic_auth(username, password)
 
       resp = connection.get('users.json')
+
       user = resp.body['user']
       user['contexts'] = user['contexts'].map{|c| c.except!('api_token')}
 
@@ -82,8 +81,8 @@ module Fulcrum
 
     def self.create_connection(url, key = nil)
       Faraday.new(url) do |connection|
-        connection.request  :multipart
-        connection.request  :json
+        connection.request :multipart
+        connection.request :json
 
         connection.response :raise_error
         connection.response :json, content_type: 'application/json'
