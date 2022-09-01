@@ -1,3 +1,6 @@
+## v0.9.1 (September 1, 2022)
+* Update dependencies
+
 ## v0.8.0 (February 20, 2020)
 * Add form history support (#28)
 
