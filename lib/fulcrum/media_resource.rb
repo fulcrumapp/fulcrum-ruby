@@ -31,7 +31,7 @@ module Fulcrum
     end
 
     def download(url, &blk)
-      open(url, "rb", &blk)
+      URI.open(url, "rb", &blk)
     end
 
     def download_version(access_key, version, &blk)
